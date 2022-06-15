@@ -6,7 +6,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = () => {
     return {
         mode: "production",
-        devtool: "source-map",
         entry: {
             background: {
                 import: './src/background/index.js',
@@ -24,11 +23,57 @@ module.exports = () => {
         output: {
             path: path.resolve(__dirname, 'dist'),
        },
-       plugins: [
+       module: {
+        rules: rules()
+       },
+       plugins: plugins()
+    }
+}
+
+const rules = () => {
+    return [js(), scssModule(), scssGlobal()]
+  }
+  
+  const js = () => {
+    return {
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+      },
+    }
+  }
+  
+  const scssModule = () => {
+    return {
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: true,
+          },
+        },
+        'sass-loader',
+      ],
+      include: /\.mod\.scss$/,
+    }
+  }
+  
+  const scssGlobal = () => {
+    return {
+      test: /\.(css|scss)$/,
+      use: ['style-loader', 'css-loader', 'sass-loader'],
+      exclude: /\.mod\.scss$/,
+    }
+  }
+
+const plugins = () => {
+    return [
         new CopyPlugin({
           patterns: [
             "./src/manifest.json",
-            "./src/options/options.css",
             { from: "./src/assets", to: "assets/" }
           ],
         }),
@@ -39,5 +84,4 @@ module.exports = () => {
             chunks: ["options"]
         })
       ]
-    }
 }
