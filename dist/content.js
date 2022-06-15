@@ -1,0 +1,2 @@
+chrome.runtime.onMessage.addListener((function(e,o,t){let n,d=document.createElement("script");d.type="text/javascript";let r=e.go_local;if(!1===r)n="window.nwtServerDebugRef.off();",console.log("[GO LOCAL]: Switching off debug mode");else{if(!0!==r)return;{let o=e.port,t=e.url;n=`window.nwtServerDebugRef.on('${o}', '${t}');`,console.log(`[GO LIVE] Switching on debug mode. Port=${o}, URL=${t}`)}}d.appendChild(document.createTextNode(n)),(document.head||document.documentElement).appendChild(d),d.remove()}));
+//# sourceMappingURL=content.js.map
