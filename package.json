@@ -4,7 +4,7 @@
   "description": "Nextbot Developer Tool for Redirecting Website Network Traffic",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "start": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aaron Olsen",
@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "styled-components": "^5.3.5"
   }
 }

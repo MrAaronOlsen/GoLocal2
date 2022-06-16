@@ -1,38 +1,39 @@
 {
-    "manifest_version": 2,
-    "name": "Go Local",
-    "short_name": "Go Local",
-    "version": "2.0.0",
-    "author": "Aaron Olsen",
-    "description": "Nextbot Developer Tool for Redirecting Website Network Traffic",
-  
-    "permissions": [
-      "tabs",
-      "storage",
-      "https://apps.nextworld.net/*"
-    ],
-  
-    "options_page": "options.html",
-  
-    "background": {
-      "scripts": ["background.js"]
-    },
-  
-    "content_scripts": [
-      {
-        "matches": [ "https://apps.nextworld.net/*" ],
-        "js": ["content.js"]
-      }
-    ],
-  
-    "browser_action": {
-      "default_icon": {
-        "16": "assets/invalid/go_local_invalid_16.png",
-        "19": "assets/invalid/go_local_invalid_19.png",
-        "24": "assets/invalid/go_local_invalid_24.png",
-        "32": "assets/invalid/go_local_invalid_32.png",
-        "48": "assets/invalid/go_local_invalid_48.png",
-        "128": "assets/invalid/go_local_invalid_128.png"
-      }
+  "manifest_version": 2,
+  "name": "Go Local",
+  "short_name": "Go Local",
+  "version": "2.0.0",
+  "author": "Aaron Olsen",
+  "description": "Nextbot Developer Tool for Redirecting Website Network Traffic",
+  "permissions": [
+    "tabs",
+    "storage",
+    "https://apps.nextworld.net/*"
+  ],
+  "options_page": "options.html",
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://apps.nextworld.net/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "browser_action": {
+    "default_icon": {
+      "16": "assets/invalid/go_local_invalid_16.png",
+      "19": "assets/invalid/go_local_invalid_19.png",
+      "24": "assets/invalid/go_local_invalid_24.png",
+      "32": "assets/invalid/go_local_invalid_32.png",
+      "48": "assets/invalid/go_local_invalid_48.png",
+      "128": "assets/invalid/go_local_invalid_128.png"
     }
   }
+}
