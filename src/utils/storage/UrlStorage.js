@@ -1,33 +1,58 @@
 import Storage from './Storage'
 import { UrlModel } from 'models'
+import Container from './Container'
+
+const ID = 'URL_STORAGE'
 
 export default class UrlStorage {
-  static ID = 'URL_STORAGE'
-
   static setUrl(url, callback) {
     if (!(url instanceof UrlModel)) {
       throw 'Url must be URL Model'
     }
 
     UrlStorage.getContainer((container) => {
-      container.set(url.getName(), url)
-      callback || callback()
+      container.set(url.getId(), url.toJson())
+
+      UrlStorage.setContainer(container, (persisted) => {
+        callback && callback(persisted)
+      })
     })
   }
 
-  static getUrl(name, callback) {
+  static getUrl(id, callback) {
     UrlStorage.getContainer((container) => {
-      callback(container.get(name))
+      callback(new UrlModle(container.get(id)))
     })
   }
 
   static getAll(callback) {
     UrlStorage.getContainer((container) => {
-      callback(container.getAll())
+      callback(container.getAll().map((json) => new UrlModel(json)))
+    })
+  }
+
+  static newUrl(callback) {
+    UrlStorage.getContainer((container) => {
+      let newUrl = new UrlModel()
+      container.set(newUrl.getId(), newUrl.toJson())
+
+      UrlStorage.setContainer(container, (persisted) => {
+        callback(persisted.getAll())
+      })
     })
   }
 
   static getContainer(callback) {
-    Storage.getContainer(UrlStorage.ID, callback)
+    Storage.getContainer(ID, (container) => {
+      callback(new Container(container))
+    })
+  }
+
+  static setContainer(container, callback) {
+    Storage.setContainer(ID, container.toJson(), callback)
+  }
+
+  static clear() {
+    Storage.clear()
   }
 }

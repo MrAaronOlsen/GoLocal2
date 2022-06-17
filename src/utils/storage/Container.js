@@ -1,15 +1,23 @@
 export default class Container {
-  #container = {}
+  #payload
+
+  constructor(payload) {
+    this.#payload = payload || {}
+  }
 
   set(name, object) {
-    this.#container[name] = object
+    this.#payload[name] = object
   }
 
   get(name) {
-    return this.#container[name]
+    return this.#payload[name]
   }
 
   getAll() {
-    return Object.values(this.#container)
+    return Object.values(this.#payload)
+  }
+
+  toJson() {
+    return this.#payload
   }
 }
