@@ -94,5 +94,7 @@ const plugins = () => {
 let aliases = () => {
   return {
     input: path.resolve(__dirname, 'src/modules/input'),
+    models: path.resolve(__dirname, 'src/models'),
+    storage: path.resolve(__dirname, 'src/utils/storage'),
   }
 }
