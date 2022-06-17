@@ -27,9 +27,8 @@ export default function TextInput({
   styleProps,
 }) {
   function handleChange(element) {
-    if (element && element.currentTarget) {
-      let content = element.currentTarget.value
-      onChange(content, name)
+    if (onChange && element && element.currentTarget) {
+      onChange(element.currentTarget.value, name)
     }
   }
 

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Go Local",
-  "short_name": "Go Local",
+  "name": "Go Local 2",
+  "short_name": "Go Local 2",
   "version": "2.0.0",
   "author": "Aaron Olsen",
   "description": "Nextbot Developer Tool for Redirecting Website Network Traffic",
