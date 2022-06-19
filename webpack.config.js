@@ -20,6 +20,10 @@ module.exports = () => {
         import: './src/options/index.js',
         filename: 'options.js',
       },
+      popup: {
+        import: './src/popup/index.js',
+        filename: 'popup.js',
+      },
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -87,6 +91,11 @@ const plugins = () => {
       filename: 'options.html',
       template: path.resolve(__dirname, 'src', 'options', 'index.html'),
       chunks: ['options'],
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'popup.html',
+      template: path.resolve(__dirname, 'src', 'popup', 'index.html'),
+      chunks: ['popup'],
     }),
   ]
 }

@@ -1,37 +1,24 @@
 import React from 'react'
 
-import { UrlStorage } from 'storage'
-import { TextInput } from 'input'
+import UrlForm from './urlform/UrlForm'
 
 import styles from './styles.mod.scss'
 
 export default function Url({ model }) {
-  const [name, setName] = React.useState(model.getName())
-  const [url, setUrl] = React.useState(model.getUrl())
-  const [port, setPort] = React.useState(model.getPort())
+  const [expand, setExpand] = React.useState()
+  const [title, setTitle] = React.useState()
 
-  function persist() {
-    model.setName(name).setUrl(url).setPort(port)
-
-    UrlStorage.setUrl(model)
+  function onFormChange(model) {
+    setTitle(model.name + ': ' + model.url + ':' + model.port)
   }
 
   return (
     <div className={styles.container}>
-      <TextInput
-        name="name"
-        placeholder="Name"
-        value={name}
-        onChange={setName}
-      />
-      <TextInput name="url" placeholder="Url" value={url} onChange={setUrl} />
-      <TextInput
-        name="port"
-        placeholder="Port"
-        value={port}
-        onChange={setPort}
-      />
-      <div onClick={persist}>Save</div>
+      <div className={styles.header}>
+        <div>{title}</div>
+        <div onClick={() => setExpand(!expand)}>Edit</div>
+      </div>
+      <UrlForm model={model} expand={expand} onFormChange={onFormChange} />
     </div>
   )
 }

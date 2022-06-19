@@ -1,7 +1,7 @@
 var current_tab
 
 // Handles when GoLocal icon is left clicked
-chrome.browserAction.onClicked.addListener((tab) => {
+chrome.action.onClicked.addListener((tab) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     let tabId = tabs[0].id
     current_tab = 'go_local_tab_' + tabId.toString()
@@ -109,7 +109,7 @@ function setMode(tabId, current_tab) {
 }
 
 function setBadge() {
-  chrome.browserAction.setIcon({
+  chrome.action.setIcon({
     path: {
       16: 'assets/local/go_local_on_16.png',
       19: 'assets/local/go_local_on_19.png',
@@ -120,7 +120,7 @@ function setBadge() {
 }
 
 function removeBadge() {
-  chrome.browserAction.setIcon({
+  chrome.action.setIcon({
     path: {
       16: 'assets/cloud/go_local_cloud_16.png',
       19: 'assets/cloud/go_local_cloud_19.png',
@@ -131,7 +131,7 @@ function removeBadge() {
 }
 
 function invalidBadge() {
-  chrome.browserAction.setIcon({
+  chrome.action.setIcon({
     path: {
       16: 'assets/invalid/go_local_invalid_16.png',
       19: 'assets/invalid/go_local_invalid_19.png',

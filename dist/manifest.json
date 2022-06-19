@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Go Local 2",
   "short_name": "Go Local 2",
   "version": "2.0.0",
@@ -7,14 +7,14 @@
   "description": "Nextbot Developer Tool for Redirecting Website Network Traffic",
   "permissions": [
     "tabs",
-    "storage",
+    "storage"
+  ],
+  "host_permissions": [
     "https://apps.nextworld.net/*"
   ],
   "options_page": "options.html",
   "background": {
-    "scripts": [
-      "background.js"
-    ]
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
@@ -26,7 +26,7 @@
       ]
     }
   ],
-  "browser_action": {
+  "action": {
     "default_icon": {
       "16": "assets/invalid/go_local_invalid_16.png",
       "19": "assets/invalid/go_local_invalid_19.png",
@@ -34,6 +34,7 @@
       "32": "assets/invalid/go_local_invalid_32.png",
       "48": "assets/invalid/go_local_invalid_48.png",
       "128": "assets/invalid/go_local_invalid_128.png"
-    }
+    },
+    "default_popup": "popup.html"
   }
 }
