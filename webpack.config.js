@@ -16,10 +16,6 @@ module.exports = () => {
         import: './src/content/index.js',
         filename: 'content.js',
       },
-      options: {
-        import: './src/options/index.js',
-        filename: 'options.js',
-      },
       popup: {
         import: './src/popup/index.js',
         filename: 'popup.js',
@@ -87,11 +83,6 @@ const plugins = () => {
       ],
     }),
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      filename: 'options.html',
-      template: path.resolve(__dirname, 'src', 'options', 'index.html'),
-      chunks: ['options'],
-    }),
     new HtmlWebpackPlugin({
       filename: 'popup.html',
       template: path.resolve(__dirname, 'src', 'popup', 'index.html'),
