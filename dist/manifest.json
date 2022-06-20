@@ -12,7 +12,6 @@
   "host_permissions": [
     "https://apps.nextworld.net/*"
   ],
-  "options_page": "options.html",
   "background": {
     "service_worker": "background.js"
   },

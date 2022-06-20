@@ -25,6 +25,7 @@ export default function TextInput({
   value,
   onChange,
   styleProps,
+  disable,
 }) {
   function handleChange(element) {
     if (onChange && element && element.currentTarget) {
@@ -32,7 +33,9 @@ export default function TextInput({
     }
   }
 
-  return (
+  return disable ? (
+    value
+  ) : (
     <StyledInput
       value={value || ''}
       name={name}

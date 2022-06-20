@@ -3,12 +3,13 @@
   flex-direction: column;
 
   width: 100%;
-
-  border: 1px solid #444;
+  height: 100%;
 
   .header {
     display: flex;
     padding: 5px;
+
+    height: 20px;
   }
 
   .list {

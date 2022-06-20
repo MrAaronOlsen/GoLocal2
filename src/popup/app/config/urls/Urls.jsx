@@ -17,22 +17,15 @@ export default function Urls({}) {
     setUrls([...urls, new UrlModel()])
   }
 
-  function clear() {
-    UrlStorage.clear()
-    setUrls([])
-  }
-
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div onClick={addNew}>Add</div>
-        <div onClick={clear}>Clear</div>
-      </div>
-
       <div className={styles.list}>
         {urls.map((url) => {
           return <Url key={url.getId()} model={url} />
         })}
+      </div>
+      <div className={styles.header}>
+        <div onClick={addNew}>Add</div>
       </div>
     </div>
   )
