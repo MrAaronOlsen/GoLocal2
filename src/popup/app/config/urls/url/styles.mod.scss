@@ -1,18 +1,18 @@
 .container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
 
   width: 100%;
 
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 5px;
 
   background-color: hsl(0, 0%, 95%);
 
-  .form {
+  .static {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 
     width: 100%;
   }

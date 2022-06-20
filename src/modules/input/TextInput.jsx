@@ -4,14 +4,12 @@ import styled from 'styled-components'
 const StyledInput = styled.input(
   ({ width, height }) => `
       width: ${width || '100%'};
-      height: ${height || '30px'};
+      width: ${height || '100%'};
 
-      padding: 0px 10px 0px 10px;
+      border: none;
+      margin: 1px;
 
-      border: 1px solid #555;
-      border-radius: 5px;
-
-      outline: none;
+      padding: 3px;
 
       &:focus, &:focus-visible {
         outline: 1px solid #bbb;
@@ -33,9 +31,7 @@ export default function TextInput({
     }
   }
 
-  return disable ? (
-    value
-  ) : (
+  return (
     <StyledInput
       value={value || ''}
       name={name}
@@ -43,6 +39,7 @@ export default function TextInput({
       onChange={handleChange}
       type={'text'}
       autoComplete="off"
+      readOnly={disable}
       {...styleProps}
     />
   )
