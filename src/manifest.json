@@ -7,10 +7,11 @@
   "description": "Nextbot Developer Tool for Redirecting Website Network Traffic",
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
+    "scripting"
   ],
   "host_permissions": [
-    "https://apps.nextworld.net/*"
+    "https://*/"
   ],
   "background": {
     "service_worker": "background.js"
@@ -18,21 +19,29 @@
   "content_scripts": [
     {
       "matches": [
-        "https://apps.nextworld.net/*"
+        "https://*/*"
       ],
       "js": [
         "content.js"
       ]
     }
   ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "/scripts/*"
+      ],
+      "matches": [
+        "https://*/*"
+      ]
+    }
+  ],
   "action": {
     "default_icon": {
-      "16": "assets/invalid/go_local_invalid_16.png",
-      "19": "assets/invalid/go_local_invalid_19.png",
-      "24": "assets/invalid/go_local_invalid_24.png",
-      "32": "assets/invalid/go_local_invalid_32.png",
-      "48": "assets/invalid/go_local_invalid_48.png",
-      "128": "assets/invalid/go_local_invalid_128.png"
+      "24": "assets/disabled/cloud_24.png",
+      "32": "assets/disabled/cloud_32.png",
+      "48": "assets/disabled/cloud_48.png",
+      "128": "assets/disabled/cloud_128.png"
     },
     "default_popup": "popup.html"
   }

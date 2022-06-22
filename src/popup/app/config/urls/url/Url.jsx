@@ -23,7 +23,9 @@ export default function Url({ model }) {
   return (
     <div className={styles.container}>
       <div className={styles.static}>
-        <div className={styles.title}>{title}</div>
+        <div className={styles.title} onClick={checkDebug}>
+          {title}
+        </div>
         <div className={styles.edit} onClick={toggleEdit}>
           Edit
         </div>
@@ -37,4 +39,12 @@ export default function Url({ model }) {
       )}
     </div>
   )
+}
+
+function checkDebug() {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    let activeTab = tabs[0]
+
+    chrome.tabs.sendMessage(activeTab.id, { checkDebug: true })
+  })
 }

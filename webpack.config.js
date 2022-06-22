@@ -9,15 +9,15 @@ module.exports = () => {
     devtool: 'inline-source-map',
     entry: {
       background: {
-        import: './src/background/index.js',
+        import: './src/background/background.js',
         filename: 'background.js',
       },
       content: {
-        import: './src/content/index.js',
+        import: './src/content/content.js',
         filename: 'content.js',
       },
       popup: {
-        import: './src/popup/index.js',
+        import: './src/popup/popup.js',
         filename: 'popup.js',
       },
     },
@@ -80,6 +80,7 @@ const plugins = () => {
       patterns: [
         './src/manifest.json',
         { from: './src/assets', to: 'assets/' },
+        { from: './src/scripts', to: 'scripts/' },
       ],
     }),
     new CleanWebpackPlugin(),
@@ -94,7 +95,9 @@ const plugins = () => {
 let aliases = () => {
   return {
     input: path.resolve(__dirname, 'src/modules/input'),
+    messages: path.resolve(__dirname, 'src/messages'),
     models: path.resolve(__dirname, 'src/models'),
+    scripts: path.resolve(__dirname, 'src/scripts'),
     storage: path.resolve(__dirname, 'src/utils/storage'),
   }
 }
