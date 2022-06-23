@@ -1,50 +1,46 @@
-import { ICON_READY, ICON_LIVE, ICON_DISABLED } from './icons'
-import { CheckDebugIsPresentMessage, DebugStatusMessage } from 'messages'
+import { IsPageCompatable } from 'scripts'
 
 // Event fired when a tab is opened
 //
 chrome.tabs.onCreated.addListener((tab) => {
-  console.log('[Event] Tab Created')
-  checkDebugIsPresent(tab.id)
+  console.log(`[Event] Tab Created: ${tab.id}`)
+  handleEvent(tab.id)
 })
 
 // Event fired when tab focus changes
 //
 chrome.tabs.onActivated.addListener((tab) => {
-  console.log('[Event] Tab Activated')
-  checkDebugIsPresent(tab.tabId)
+  console.log(`[Event] Tab Activated: ${tab.tabId}`)
+  handleEvent(tab.tabId)
 })
 
 // Event fired when url changes
 //
 chrome.tabs.onUpdated.addListener((id, change, tab) => {
-  console.log('[Event] Tab Updated')
-  checkDebugIsPresent(id)
+  if (change.status === 'complete') {
+    console.log(`[Event] Tab Updated: ${id}`)
+    console.log(change)
+    handleEvent(id)
+  }
 })
 
-// Initializes a chain of messages to discover if the tab (tabId) is valid for debug
-//
-// - Check Debug Present: background -> content
-// - Debug is Present: window script -> content
-// - Debug is Present: content -> background
-//
-function checkDebugIsPresent(tabId) {
-  setIcon(ICON_DISABLED)
-  CheckDebugIsPresentMessage.sendMessageToTab(tabId)
+function handleEvent(tabId) {
+  IsPageCompatable.sendCheckPageStatusMessage(tabId, () => {
+    setIcon('#666')
+  })
 }
 
-// Listener for "Debug Is Present" message sent from the content script
+// Listener for all runtime messages
 //
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (DebugStatusMessage.accepts(request)) {
-    let status = request.status
-
-    status ? setIcon(ICON_READY) : setIcon(ICON_DISABLED)
-  }
+  IsPageCompatable.handleRuntimeMessage(request, (result) => {
+    result && setIcon('#49f')
+  })
 })
 
 // Set the Extension Icon
 //
-function setIcon(path) {
-  chrome.action.setIcon(path)
+function setIcon(color) {
+  chrome.action.setBadgeText({ text: ' ' })
+  chrome.action.setBadgeBackgroundColor({ color: color })
 }

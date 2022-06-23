@@ -38,10 +38,10 @@
   ],
   "action": {
     "default_icon": {
-      "24": "assets/disabled/cloud_24.png",
-      "32": "assets/disabled/cloud_32.png",
-      "48": "assets/disabled/cloud_48.png",
-      "128": "assets/disabled/cloud_128.png"
+      "32": "assets/icon/cloud_32.png",
+      "48": "assets/icon/cloud_48.png",
+      "64": "assets/icon/cloud_64.png",
+      "128": "assets/icon/cloud_128.png"
     },
     "default_popup": "popup.html"
   }

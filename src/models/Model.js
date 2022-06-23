@@ -1,4 +1,4 @@
-import short from 'short-uuid'
+import shortUUID from 'short-uuid'
 
 const ID = 'id'
 
@@ -15,7 +15,7 @@ export default class Model {
     if (id) {
       return id
     } else {
-      this.set(ID, short.generate())
+      this.set(ID, shortUUID.generate())
       return this.get(ID)
     }
   }
