@@ -1,1 +1,1 @@
-export * from './script_paths'
+export { default as ScriptPaths } from './ScriptPaths'

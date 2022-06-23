@@ -3,6 +3,8 @@ const CopyPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+const scripts = require('./src/scripts/script_paths.js')
+
 module.exports = () => {
   return {
     mode: 'development',
@@ -20,6 +22,7 @@ module.exports = () => {
         import: './src/popup/popup.js',
         filename: 'popup.js',
       },
+      script1: scripts.CHECK_DEBUG_IS_PRESENT_SCRIPT_PATH.entry,
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -80,7 +83,6 @@ const plugins = () => {
       patterns: [
         './src/manifest.json',
         { from: './src/assets', to: 'assets/' },
-        { from: './src/scripts', to: 'scripts/' },
       ],
     }),
     new CleanWebpackPlugin(),

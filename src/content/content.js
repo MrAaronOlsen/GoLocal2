@@ -1,5 +1,5 @@
-import { CHECK_DEBUG_PRESENT_SCRIPT } from 'scripts'
-import { CHECK_DEBUG_PRESENT, DEBUG_IS_PRESENT } from 'messages'
+import { ScriptPaths } from 'scripts'
+import { CheckDebugIsPresentMessage, DebugStatusMessage } from 'messages'
 
 // chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 //   let script = document.createElement('script')
@@ -29,30 +29,21 @@ import { CHECK_DEBUG_PRESENT, DEBUG_IS_PRESENT } from 'messages'
 //   script.remove()
 // })
 
+// Listener for "Check Debug Present" message, sent from background
+//
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (!CHECK_DEBUG_PRESENT.receive(message)) {
-    return
+  if (CheckDebugIsPresentMessage.accepts(message)) {
+    checkDebugIsPresent()
   }
+})
 
-  console.log(`${CHECK_DEBUG_PRESENT.name} message received in content`)
-
-  window.addEventListener(
-    'message',
-    (event) => {
-      console.log(`${DEBUG_IS_PRESENT.name} message received in content`)
-
-      let request = event.data || {}
-
-      if (DEBUG_IS_PRESENT.receive(request)) {
-        console.log(`Content sending message ${DEBUG_IS_PRESENT.name}`)
-        chrome.runtime.sendMessage(DEBUG_IS_PRESENT.send(request))
-      }
-    },
-    false,
-  )
-
+// Checks if current content is debug compatible
+//
+function checkDebugIsPresent() {
   let script = document.createElement('script')
-  script.src = chrome.runtime.getURL(CHECK_DEBUG_PRESENT_SCRIPT)
+  script.src = chrome.runtime.getURL(
+    ScriptPaths.CHECK_DEBUG_IS_PRESENT_SCRIPT_PATH.runtime,
+  )
 
   script.onload = function () {
     this.remove()
@@ -60,4 +51,21 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   let element = document.head || document.documentElement
   element && element.appendChild(script)
-})
+}
+
+// Register an event listener for this content window to handle any Debug Is Present messages
+//
+window.addEventListener('message', handleWindowMessageEvent, false)
+
+function handleWindowMessageEvent(message) {
+  let request = message.data || {}
+
+  console.log('Handling message')
+  console.log(request)
+
+  if (DebugStatusMessage.accepts(request)) {
+    let status = request.status
+
+    DebugStatusMessage.sendToBackground(status)
+  }
+}
