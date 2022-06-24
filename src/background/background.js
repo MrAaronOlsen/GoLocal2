@@ -1,4 +1,4 @@
-import { IsPageCompatable } from 'scripts'
+import { isTabCompatible } from 'scripts'
 
 // Event fired when a tab is opened
 //
@@ -14,7 +14,7 @@ chrome.tabs.onActivated.addListener((tab) => {
   handleEvent(tab.tabId)
 })
 
-// Event fired when url changes
+// Event fired when page changes
 //
 chrome.tabs.onUpdated.addListener((id, change, tab) => {
   if (change.status === 'complete') {
@@ -25,18 +25,14 @@ chrome.tabs.onUpdated.addListener((id, change, tab) => {
 })
 
 function handleEvent(tabId) {
-  IsPageCompatable.sendCheckPageStatusMessage(tabId, () => {
-    setIcon('#666')
+  isTabCompatible(tabId, (status) => {
+    status ? setIcon('#49f') : setIcon('#666')
   })
 }
 
 // Listener for all runtime messages
 //
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  IsPageCompatable.handleRuntimeMessage(request, (result) => {
-    result && setIcon('#49f')
-  })
-})
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {})
 
 // Set the Extension Icon
 //

@@ -1,2 +1,3 @@
-export { default as ScriptPaths } from './ScriptPaths'
-export { default as IsPageCompatable } from './ispagecompatible/IsPageCompatable'
+export { default as isTabCompatible } from './isTabCompatible'
+export { default as toggleDebugRefOn } from './toggleDebugRefOn'
+export { default as toggleDebugRefOff } from './toggleDebugRefOff'

@@ -3,8 +3,6 @@ const CopyPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const Scripts = require('./src/scripts/node_script_paths.js')
-
 module.exports = () => {
   return {
     mode: 'development',
@@ -14,15 +12,10 @@ module.exports = () => {
         import: './src/background/background.js',
         filename: 'background.js',
       },
-      content: {
-        import: './src/content/content.js',
-        filename: 'content.js',
-      },
       popup: {
         import: './src/popup/popup.js',
         filename: 'popup.js',
       },
-      report_page_status_script: Scripts.REPORT_PAGE_STATUS_SCRIPT_URL.entry,
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
