@@ -35,4 +35,8 @@ export default class UrlModel extends Model {
   getPort() {
     return this.get(PORT)
   }
+
+  clone() {
+    return new UrlModel(this.payload)
+  }
 }

@@ -13,7 +13,7 @@ export default function toggleDebugRefOff(tabId, callback) {
       },
       (error) => {
         // Swollow the error. This is likely due to the page rejecting injected code,
-        // which means we cant do anything no matter what
+        // which means we cant do anything
         callback()
       },
     )

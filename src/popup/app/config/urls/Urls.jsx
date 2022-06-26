@@ -21,7 +21,7 @@ export default function Urls({}) {
     <div className={styles.container}>
       <div className={styles.list}>
         {urls.map((url) => {
-          return <Url key={url.getId()} model={url} />
+          return <Url key={url.getId()} modelIn={url} />
         })}
       </div>
       <div className={styles.header}>
