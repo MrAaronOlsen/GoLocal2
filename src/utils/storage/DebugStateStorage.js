@@ -19,14 +19,14 @@ export default class DebugStateStorage extends Storage {
       container.set(tabId, state.toJson())
 
       this.setContainer(container, (persisted) => {
-        callback && callback(new DebugStateModel(persisted[tabId]))
+        callback && callback(new DebugStateModel(persisted.get(tabId)))
       })
     })
   }
 
   getState(tabId, callback) {
     this.getContainer((container) => {
-      let state = container[tabId]
+      let state = container.get(tabId)
       callback(state ? new DebugStateModel(state) : null)
     })
   }

@@ -12,7 +12,7 @@ export default class DebugStateModel extends Model {
     return this
   }
 
-  getUrlId(id) {
+  getUrlId() {
     return this.get(URL_ID)
   }
 
