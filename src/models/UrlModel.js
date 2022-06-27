@@ -46,4 +46,8 @@ export default class UrlModel extends Model {
   clone() {
     return new UrlModel(this.toJson())
   }
+
+  validate() {
+    return this.getName() && this.getUrl() && this.getPort()
+  }
 }

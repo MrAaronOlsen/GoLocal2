@@ -10,6 +10,12 @@ export default function Url({ modelIn }) {
   const [model, setModel] = React.useState(modelIn)
   const [edit, setEdit] = React.useState(false)
 
+  React.useEffect(() => {
+    if (!model.validate()) {
+      setEdit(true)
+    }
+  }, [modelIn])
+
   function toggleEdit() {
     setEdit(!edit)
   }
@@ -36,7 +42,7 @@ export default function Url({ modelIn }) {
     <div className={styles.container}>
       <div className={styles.static}>
         <div className={styles.title} onClick={setDebug}>
-          {`${model.getName()} ${model.getUrl()}:${model.getPort()}`}
+          {buildTitle(model)}
         </div>
         <div className={styles.edit} onClick={toggleEdit}>
           Edit
@@ -51,4 +57,12 @@ export default function Url({ modelIn }) {
       )}
     </div>
   )
+}
+
+function buildTitle(model) {
+  let name = model.getName() || 'Name'
+  let url = model.getUrl() || 'Url'
+  let port = model.getPort() || 'Port'
+
+  return `${name} ${url}:${port}`
 }
