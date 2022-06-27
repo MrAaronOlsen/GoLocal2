@@ -1,28 +1,33 @@
-import StorageNamespace from './StorageNameSpace'
-
-const NAMESPACE = StorageNamespace.CHROME_STORAGE.getName()
+const NAMESPACE = 'GOLOCAL_2_STORAGE'
 
 export default class ChromeStorage {
-  static setContainer(id, container, callback) {
-    ChromeStorage.getStorage((storage) => {
-      console.log('Setting container in CHROME Storage ' + id + ':')
-      console.log(container)
+  #type
 
+  constructor(type) {
+    this.#type = type
+  }
+
+  static sync() {
+    return new ChromeStorage('sync')
+  }
+
+  static session() {
+    return new ChromeStorage('session')
+  }
+
+  setContainer(id, container, callback) {
+    this.getStorage((storage) => {
       storage[id] = container
 
-      ChromeStorage.setStorage(storage, () => {
-        ChromeStorage.getContainer(id, callback)
+      this.setStorage(storage, () => {
+        this.getContainer(id, callback)
       })
     })
   }
 
-  static getContainer(id, callback) {
-    ChromeStorage.getStorage((storage) => {
+  getContainer(id, callback) {
+    this.getStorage((storage) => {
       let container = storage[id]
-
-      console.log('Getting Container from CHROME Storage ' + id + ':')
-      console.log(container)
-
       callback(container)
     })
   }
@@ -30,16 +35,13 @@ export default class ChromeStorage {
   // Storage
   //
 
-  static getStorage(callback) {
-    chrome.storage.sync.get(NAMESPACE, (store) => {
-      console.log('Getting CHROME Storage:')
-      console.log(store)
-
+  getStorage(callback) {
+    chrome.storage[this.#type].get(NAMESPACE, (store) => {
       let storage = store[NAMESPACE]
 
       if (!storage) {
-        ChromeStorage.setStorage({}, () => {
-          ChromeStorage.getStorage(callback)
+        this.setStorage({}, () => {
+          this.getStorage(callback)
         })
       } else {
         callback && callback(storage)
@@ -47,17 +49,16 @@ export default class ChromeStorage {
     })
   }
 
-  static setStorage(storage, callback) {
+  setStorage(storage, callback) {
     let store = {}
     store[NAMESPACE] = storage
 
-    chrome.storage.sync.set(store, callback)
+    chrome.storage[this.#type].set(store, callback)
   }
 
-  static clear() {
-    console.log('Clearing CHROME Storage')
-    chrome.storage.sync.clear(() => {
-      ChromeStorage.getStorage()
+  clear() {
+    chrome.storage[this.#type].clear(() => {
+      this.getStorage()
     })
   }
 }

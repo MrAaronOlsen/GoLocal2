@@ -9,6 +9,13 @@ export default class UrlModel extends Model {
     super(payload)
   }
 
+  static withId() {
+    let newUrl = new UrlModel()
+    newUrl.generateId()
+
+    return newUrl
+  }
+
   setName(name) {
     this.set(NAME, name)
     return this
@@ -37,6 +44,6 @@ export default class UrlModel extends Model {
   }
 
   clone() {
-    return new UrlModel(this.payload)
+    return new UrlModel(this.toJson())
   }
 }

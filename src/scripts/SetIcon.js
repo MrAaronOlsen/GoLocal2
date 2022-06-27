@@ -28,9 +28,6 @@ export default class SetIcon {
       callback = () => {}
     }
 
-    console.log('Setting Icon')
-    console.log(paths[type])
-
     chrome.action.setIcon(
       {
         path: paths[type],

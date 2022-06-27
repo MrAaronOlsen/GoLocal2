@@ -1,17 +1,27 @@
-import ChromeStorage from './ChromeStorage'
+import Container from './Container'
 
 export default class Storage {
-  static #handler = ChromeStorage
+  #storage
+  #id
 
-  static setContainer(id, container, callback) {
-    this.#handler.setContainer(id, container, callback)
+  constructor(storage, id) {
+    this.#storage = storage
+    this.#id = id
   }
 
-  static getContainer(id, callback) {
-    this.#handler.getContainer(id, callback)
+  getContainer(callback) {
+    this.#storage.getContainer(this.#id, (container) => {
+      callback(new Container(container))
+    })
   }
 
-  static clear() {
-    this.#handler.clear()
+  setContainer(container, callback) {
+    this.#storage.setContainer(this.#id, container.toJson(), (container) =>
+      callback(new Container(container)),
+    )
+  }
+
+  clear() {
+    this.#storage.clear()
   }
 }

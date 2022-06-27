@@ -10,14 +10,11 @@ export default class Model {
   }
 
   getId() {
-    let id = this.get(ID)
+    return this.get(ID)
+  }
 
-    if (id) {
-      return id
-    } else {
-      this.set(ID, shortUUID.generate())
-      return this.get(ID)
-    }
+  generateId() {
+    this.set(ID, shortUUID.generate())
   }
 
   get(field) {

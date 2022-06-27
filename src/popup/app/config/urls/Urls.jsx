@@ -10,11 +10,11 @@ export default function Urls({}) {
   const [urls, setUrls] = React.useState([])
 
   React.useEffect(() => {
-    UrlStorage.getAll(setUrls)
+    new UrlStorage().getAll(setUrls)
   }, [])
 
   function addNew() {
-    setUrls([...urls, new UrlModel()])
+    setUrls([...urls, UrlModel.withId()])
   }
 
   return (

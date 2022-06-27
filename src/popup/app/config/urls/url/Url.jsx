@@ -16,6 +16,7 @@ export default function Url({ modelIn }) {
 
   function onFormChange(name, url, port) {
     let newModel = model.clone().setName(name).setUrl(url).setPort(port)
+    console.log(newModel.toJson())
     setModel(newModel)
   }
 

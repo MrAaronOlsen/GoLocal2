@@ -5,8 +5,7 @@ import { UrlStorage } from 'storage'
 
 export default function Footer({}) {
   function clear() {
-    UrlStorage.clear()
-    setUrls([])
+    new UrlStorage().clear()
   }
 
   return (

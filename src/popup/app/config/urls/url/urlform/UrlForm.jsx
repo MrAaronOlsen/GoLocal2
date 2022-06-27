@@ -5,6 +5,8 @@ import { TextInput } from 'input'
 
 import styles from './styles.mod.scss'
 
+
+
 export default function UrlForm({ model, onFormChange, onSave }) {
   const [name, setName] = React.useState(model.getName())
   const [url, setUrl] = React.useState(model.getUrl())
@@ -16,7 +18,7 @@ export default function UrlForm({ model, onFormChange, onSave }) {
 
   function save() {
     model.setName(name).setUrl(url).setPort(port)
-    UrlStorage.setUrl(model, onSave)
+    new UrlStorage().setUrl(model, onSave)
   }
 
   return (
