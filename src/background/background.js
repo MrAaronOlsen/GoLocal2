@@ -1,16 +1,14 @@
-import { isTabCompatible, SetIcon } from 'scripts'
+import { testDebugState, SetIcon } from 'scripts'
 
 // Event fired when a tab is opened
 //
 chrome.tabs.onCreated.addListener((tab) => {
-  console.log(`[Event] Tab Created: ${tab.id}`)
   handleTabEvent(tab.id)
 })
 
 // Event fired when tab focus changes
 //
 chrome.tabs.onActivated.addListener((tab) => {
-  console.log(`[Event] Tab Activated: ${tab.tabId}`)
   handleTabEvent(tab.tabId)
 })
 
@@ -18,15 +16,22 @@ chrome.tabs.onActivated.addListener((tab) => {
 //
 chrome.tabs.onUpdated.addListener((id, change, tab) => {
   if (change.status === 'complete') {
-    console.log(`[Event] Tab Updated: ${id}`)
-    console.log(change)
     handleTabEvent(id)
   }
 })
 
 function handleTabEvent(tabId) {
-  isTabCompatible(tabId, (status) => {
-    status ? SetIcon.setReady(tabId) : SetIcon.setDisabled(tabId)
+  testDebugState(tabId, (state) => {
+    switch (state) {
+      case 'READY':
+        SetIcon.setReady(tabId)
+        break
+      case 'LIVE':
+        SetIcon.setLive(tabId)
+        break
+      default:
+        SetIcon.setDisabled(tabId)
+    }
   })
 }
 

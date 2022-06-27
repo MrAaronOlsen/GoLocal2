@@ -27,9 +27,6 @@ export default function Url({ modelIn }) {
 
   React.useEffect(() => {
     getStateForCurrentTab((state, tabId) => {
-      console.log('Checking state of current tab...')
-      console.log(state.toJson())
-
       if (!state) {
         return
       }
