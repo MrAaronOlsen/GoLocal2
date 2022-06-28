@@ -1,12 +1,12 @@
 const paths = {
   LIVE: {
-    32: 'assets/live/cloud_32.png',
+    128: 'assets/live/cloud_128.png',
   },
   READY: {
-    32: 'assets/ready/cloud_32.png',
+    128: 'assets/ready/cloud_128.png',
   },
   DISABLED: {
-    32: 'assets/disabled/cloud_32.png',
+    128: 'assets/disabled/cloud_128.png',
   },
 }
 

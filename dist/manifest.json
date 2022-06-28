@@ -18,8 +18,11 @@
   },
   "action": {
     "default_icon": {
-      "32": "assets/disabled/cloud_32.png"
+      "128": "assets/disabled/cloud_128.png"
     },
     "default_popup": "popup.html"
+  },
+  "icons": {
+    "128": "assets/live/cloud_128.png"
   }
 }
