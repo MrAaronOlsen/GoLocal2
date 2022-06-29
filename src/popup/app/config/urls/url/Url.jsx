@@ -80,9 +80,11 @@ export default function Url({ modelIn }) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.static}>
+      <div className={styles.header}>
+        <div className={styles.status}>{active + ''}</div>
         <div className={styles.title} onClick={setDebug}>
-          {buildTitle(model, active)}
+          <div className={styles.name}>{getName(model)}</div>
+          <div className={styles.detail}>{getDetail(model)}</div>
         </div>
         <div className={styles.edit} onClick={toggleEdit}>
           Edit
@@ -99,12 +101,15 @@ export default function Url({ modelIn }) {
   )
 }
 
-function buildTitle(model, active) {
-  let name = model.getName() || 'Name'
+function getName(model) {
+  return model.getName() || 'Name'
+}
+
+function getDetail(model) {
   let url = model.getUrl() || 'Url'
   let port = model.getPort() || 'Port'
 
-  return `${active ? 'Active: ' : ''} ${name} ${url}:${port}`
+  return `${url}:${port}`
 }
 
 function getStateForCurrentTab(callback) {

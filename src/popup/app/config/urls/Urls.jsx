@@ -19,12 +19,13 @@ export default function Urls({}) {
 
   return (
     <div className={styles.container}>
+      <div className={styles.header}>Urls</div>
       <div className={styles.list}>
         {urls.map((url) => {
           return <Url key={url.getId()} modelIn={url} />
         })}
       </div>
-      <div className={styles.header}>
+      <div className={styles.footer}>
         <div onClick={addNew}>Add</div>
       </div>
     </div>

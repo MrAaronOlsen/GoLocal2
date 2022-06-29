@@ -93,5 +93,6 @@ let aliases = () => {
     models: path.resolve(__dirname, 'src/models'),
     scripts: path.resolve(__dirname, 'src/scripts'),
     storage: path.resolve(__dirname, 'src/utils/storage'),
+    theme: path.resolve(__dirname, 'src/theme'),
   }
 }

@@ -7,15 +7,18 @@
 
   .header {
     display: flex;
-    padding: 5px;
+    padding: 10px;
 
-    height: 20px;
+    border-bottom: 1px solid var(--primary-border);
   }
 
   .list {
     display: flex;
     flex-direction: column;
+  }
 
-    padding: 5px;
+  .footer {
+    display: flex;
+    padding: 10px;
   }
 }
