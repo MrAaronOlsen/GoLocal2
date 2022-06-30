@@ -1,6 +1,9 @@
+import React from 'react'
 import { createGlobalStyle } from 'styled-components'
 
-export const GlobalStyle = createGlobalStyle(
+import { EventBus, Events } from 'event'
+
+const GlobalStyle = createGlobalStyle(
   ({ primary, background, surface, error }) => `
     :root {
       --primary-main: ${primary.main};
@@ -20,44 +23,62 @@ export const GlobalStyle = createGlobalStyle(
 `,
 )
 
-export const light = {
-  primary: {
-    main: '#1565c0',
-    variant: '#003c8f',
-    on: '#ffffff',
-    border: '#ababab',
-  },
-  background: {
-    main: '#efefef',
-    on: '#000000',
-  },
-  surface: {
-    main: '#ffffff',
-    on: '#000000',
-  },
-  error: {
-    main: '#b00020',
-    on: '#ffffff',
-  },
+export function Theme() {
+  const [theme, setTheme] = React.useState(themes.dark)
+
+  React.useEffect(() => {
+    EventBus.on(Events.THEME_CHANGED, changeTheme)
+    return () => EventBus.remove(Events.THEME_CHANGED, changeTheme)
+  })
+
+  const changeTheme = React.useCallback((data) => {
+    let theme = data.detail.theme
+    setTheme(themes[theme])
+  })
+
+  return <GlobalStyle {...theme} />
 }
 
-export const dark = {
-  primary: {
-    main: '#2f343d',
-    variant: '#003c8f',
-    on: '#ffffff',
-    border: '#808080',
+const themes = {
+  light: {
+    primary: {
+      main: '#1565c0',
+      variant: '#003c8f',
+      on: '#ffffff',
+      border: '#ababab',
+    },
+    background: {
+      main: '#efefef',
+      on: '#000000',
+    },
+    surface: {
+      main: '#ffffff',
+      on: '#000000',
+    },
+    error: {
+      main: '#b00020',
+      on: '#ffffff',
+    },
   },
-  background: {
-    main: '#161c26',
-    on: '#ffffff',
-  },
-  surface: {
-    main: '#2f343d',
-    on: '#ffffff',
-  },
-  error: {
-    main: '#cf6679',
-    on: '#000000',
+
+  dark: {
+    primary: {
+      main: '#2f343d',
+      variant: '#003c8f',
+      on: '#ffffff',
+      border: '#808080',
+    },
+    background: {
+      main: '#161c26',
+      on: '#ffffff',
+    },
+    surface: {
+      main: '#2f343d',
+      on: '#ffffff',
+    },
+    error: {
+      main: '#cf6679',
+      on: '#000000',
+    },
   },
 }

@@ -89,6 +89,7 @@ const plugins = () => {
 
 let aliases = () => {
   return {
+    event: path.resolve(__dirname, 'src/event'),
     input: path.resolve(__dirname, 'src/modules/input'),
     models: path.resolve(__dirname, 'src/models'),
     scripts: path.resolve(__dirname, 'src/scripts'),
