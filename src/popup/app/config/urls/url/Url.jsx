@@ -6,6 +6,7 @@ import { DebugStateStorage } from 'storage'
 
 import UrlForm from './urlform/UrlForm'
 
+import Gear from 'assets/gear.png'
 import styles from './styles.mod.scss'
 
 const debugStateStorage = new DebugStateStorage()
@@ -87,7 +88,7 @@ export default function Url({ modelIn }) {
           <div className={styles.detail}>{getDetail(model)}</div>
         </div>
         <div className={styles.edit} onClick={toggleEdit}>
-          Edit
+          <img src={Gear} />
         </div>
       </div>
       {edit && (

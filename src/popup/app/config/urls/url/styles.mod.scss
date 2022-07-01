@@ -30,6 +30,8 @@
       padding-left: 10px;
       width: 75%;
 
+      cursor: pointer;
+
       .name {
       }
 
@@ -42,7 +44,12 @@
     border-bottom: 1px solid var(--primary-border);
 
     .edit {
+      display: flex;
+
       width: 10%;
+      height: 20px;
+
+      cursor: pointer;
     }
   }
 }

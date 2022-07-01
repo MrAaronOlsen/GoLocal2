@@ -32,7 +32,7 @@ module.exports = () => {
 }
 
 const rules = () => {
-  return [js(), scssModule(), scssGlobal()]
+  return [js(), scssModule(), scssGlobal(), images()]
 }
 
 const js = () => {
@@ -70,6 +70,21 @@ const scssGlobal = () => {
   }
 }
 
+function images() {
+  return {
+    test: /\.(png|jpe?g|gif)$/i,
+    use: [
+      {
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: '/assets',
+        },
+      },
+    ],
+  }
+}
+
 const plugins = () => {
   return [
     new CopyPlugin({
@@ -95,5 +110,6 @@ let aliases = () => {
     scripts: path.resolve(__dirname, 'src/scripts'),
     storage: path.resolve(__dirname, 'src/utils/storage'),
     theme: path.resolve(__dirname, 'src/theme'),
+    assets: path.resolve(__dirname, 'src/assets'),
   }
 }

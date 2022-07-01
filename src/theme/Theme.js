@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle(
       --background-on: ${background.on};
 
       --surface-main: ${surface.main};
+      --surface-main-light: ${surface.mainLight};
       --surface-on: ${surface.on};
 
       --error-main: ${error.main};
@@ -48,11 +49,12 @@ const themes = {
       border: '#ababab',
     },
     background: {
-      main: '#efefef',
+      main: '#dfdfdf',
       on: '#000000',
     },
     surface: {
-      main: '#ffffff',
+      main: '#efefef',
+      mainLight: '#ffffff',
       on: '#000000',
     },
     error: {
@@ -74,6 +76,7 @@ const themes = {
     },
     surface: {
       main: '#2f343d',
+      mainLight: '#4f545d',
       on: '#ffffff',
     },
     error: {

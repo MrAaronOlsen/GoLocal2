@@ -6,13 +6,11 @@ const StyledInput = styled.input(
       width: ${width || '100%'};
       width: ${height || '100%'};
 
-      border: none;
       margin: 1px;
-
       padding: 3px;
 
       &:focus, &:focus-visible {
-        outline: 1px solid #bbb;
+        outline: none;
       }
     `,
 )

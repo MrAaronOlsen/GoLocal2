@@ -36,7 +36,9 @@ export default function UrlForm({ model, onFormChange, onSave }) {
           onChange={setPort}
         />
       </div>
-      <div onClick={save}>Save</div>
+      <div className={styles.footer} onClick={save}>
+        Save
+      </div>
     </div>
   )
 }
