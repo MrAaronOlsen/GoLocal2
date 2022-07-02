@@ -1,3 +1,25 @@
 .container {
+  display: flex;
+  flex-direction: column;
+
   width: 100%;
+
+  .frame {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    .title {
+      width: 100%;
+      padding: 10px;
+      font-size: 12px;
+    }
+
+    .body {
+      width: 100%;
+      padding: 10px;
+      background-color: var(--surface-main);
+    }
+  }
 }

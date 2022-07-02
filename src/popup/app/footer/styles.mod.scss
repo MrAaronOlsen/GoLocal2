@@ -1,6 +1,7 @@
 .container {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
 
   position: fixed;
@@ -15,4 +16,13 @@
   color: var(--background-on);
 
   border-top: 1px solid var(--primary-border);
+
+  .back {
+    cursor: pointer;
+  }
+
+  img {
+    cursor: pointer;
+    height: 30px;
+  }
 }

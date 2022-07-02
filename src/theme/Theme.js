@@ -2,6 +2,7 @@ import React from 'react'
 import { createGlobalStyle } from 'styled-components'
 
 import { EventBus, Events } from 'event'
+import { ConfigStorage } from 'storage'
 
 const GlobalStyle = createGlobalStyle(
   ({ primary, background, surface, error }) => `
@@ -24,8 +25,21 @@ const GlobalStyle = createGlobalStyle(
 `,
 )
 
+const configStorage = new ConfigStorage()
+
 export function Theme() {
-  const [theme, setTheme] = React.useState(themes.dark)
+  const [theme, setTheme] = React.useState(themes.light)
+
+  React.useEffect(() => {
+    configStorage.getConfig((config) => {
+      console.log(config.toJson())
+      const theme = themes[config.getTheme()]
+
+      if (theme) {
+        setTheme(theme)
+      }
+    })
+  }, [])
 
   React.useEffect(() => {
     EventBus.on(Events.THEME_CHANGED, changeTheme)
