@@ -12,7 +12,7 @@ export default function Footer({ navigate }) {
         {navigate.size() > 1 && 'Back'}
       </div>
 
-      <img src={Gear} onClick={() => navigate.add(<Config />)} />
+      {navigate.current() !== "config" && <img src={Gear} onClick={() => navigate.add("config", <Config />)} />}
     </div>
   )
 }

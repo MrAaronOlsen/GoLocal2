@@ -8,16 +8,17 @@ import { Theme } from 'theme'
 import styles from './styles.mod.scss'
 
 export default function App() {
-  const [pages, setPages] = React.useState([<Main />])
+  const [pages, setPages] = React.useState([['main', <Main />]])
 
   const navigate = {
     size: () => pages.length,
+    current: () => pages.at(-1)[0],
     add: addPage,
     pop: removePage,
   }
 
-  function addPage(page) {
-    pages.push(page)
+  function addPage(name, page) {
+    pages.push([name, page])
     setPages([...pages])
   }
 
@@ -35,7 +36,7 @@ export default function App() {
       <Theme />
       <div className={styles.container}>
         <Header />
-        {pages.at(-1)}
+        {pages.at(-1)[1]}
         <Footer navigate={navigate} />
       </div>
     </React.Fragment>
