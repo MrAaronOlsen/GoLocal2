@@ -80,7 +80,7 @@ const themes = {
   dark: {
     primary: {
       main: '#2f343d',
-      variant: '#003c8f',
+      variant: '#1565c0',
       on: '#ffffff',
       border: '#808080',
     },

@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { UrlStorage } from 'storage'
 import { ConfigStorage } from 'storage'
 
-import { ThemeConfig } from './themeconfig'
+import ThemeConfig from './themeconfig/ThemeConfig'
+import StorageConfig from './storageconfig/StorageConfig'
 import styles from './styles.mod.scss'
 
 const configStorage = new ConfigStorage()
@@ -17,10 +17,6 @@ export default function Config() {
     configStorage.setConfig(config, callback)
   }
 
-  function clear() {
-    new UrlStorage().clear()
-  }
-
   return (
     <div className={styles.container}>
       <div className={styles.frame}>
@@ -32,7 +28,7 @@ export default function Config() {
       <div className={styles.frame}>
         <div className={styles.title}>STORAGE</div>
         <div className={styles.body}>
-          <div onClick={clear}>Clear Storage</div>
+          <StorageConfig getConfig={getConfig} setConfig={setConfig} />
         </div>
       </div>
     </div>

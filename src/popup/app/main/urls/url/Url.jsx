@@ -52,7 +52,7 @@ export default function Url({ modelIn }) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className={styles.status}>{active + ''}</div>
+        <div className={styles.status}>{active ? 'On' : ''}</div>
         <div className={styles.title} onClick={toggleDebugRefMode}>
           <div className={styles.name}>{getName(model)}</div>
           <div className={styles.detail}>{getDetail(model)}</div>

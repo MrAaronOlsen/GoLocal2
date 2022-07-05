@@ -10,6 +10,8 @@ const Styled = styled.div(
   `,
 )
 
-export default function Gear({ color, size }) {
-  return <Styled className={styles.container} color={color} size={size} />
+export default function Gear({ color, size, ...props }) {
+  return (
+    <Styled className={styles.container} color={color} size={size} {...props} />
+  )
 }

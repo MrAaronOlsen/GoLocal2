@@ -9,7 +9,6 @@ const StyledTheme = styled.div(
   ({ active }) => `
     cursor: pointer;
     ${active && 'background-color: var(--surface-main-light);'}
-    
   `,
 )
 
@@ -38,10 +37,10 @@ export default function ThemeConfig({ getConfig, setConfig }) {
 
   return (
     <div className={styles.container}>
-      <StyledTheme active={theme === 'light'}>
+      <StyledTheme className={styles.entry} active={theme === 'light'}>
         <div onClick={() => changeTheme('light')}>Light</div>
       </StyledTheme>
-      <StyledTheme active={theme === 'dark'}>
+      <StyledTheme className={styles.entry} active={theme === 'dark'}>
         <div onClick={() => changeTheme('dark')}>Dark</div>
       </StyledTheme>
     </div>
