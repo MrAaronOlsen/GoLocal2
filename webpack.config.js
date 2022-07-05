@@ -106,6 +106,7 @@ let aliases = () => {
   return {
     popup: path.resolve(__dirname, 'src/popup'),
     event: path.resolve(__dirname, 'src/event'),
+    icons: path.resolve(__dirname, 'src/modules/icons'),
     input: path.resolve(__dirname, 'src/modules/input'),
     models: path.resolve(__dirname, 'src/models'),
     scripts: path.resolve(__dirname, 'src/scripts'),

@@ -1,0 +1,11 @@
+.container {
+  font-family: 'icomoon' !important;
+  font-size: 30px;
+  color: var(--primary-variant);
+
+  cursor: pointer;
+}
+
+.container:before {
+  content: '\e900';
+}

@@ -1,12 +1,11 @@
 import React from 'react'
 
-import { DebugStateModel } from 'models'
-import { toggleDebugRefOn, toggleDebugRefOff, SetIcon } from 'scripts'
+import { toggleDebugRef } from 'scripts'
 import { DebugStateStorage } from 'storage'
+import { Gear } from 'icons'
 
 import UrlForm from './urlform/UrlForm'
 
-import Gear from 'assets/gear.png'
 import styles from './styles.mod.scss'
 
 const debugStateStorage = new DebugStateStorage()
@@ -17,8 +16,9 @@ export default function Url({ modelIn }) {
   const [active, setActive] = React.useState(false)
 
   React.useEffect(() => {
-    if (!model.validate()) {
+    if (!modelIn.validate()) {
       setEdit(true)
+      setModel(modelIn)
     }
   }, [modelIn])
 
@@ -27,7 +27,7 @@ export default function Url({ modelIn }) {
   }
 
   React.useEffect(() => {
-    getStateForCurrentTab((state, tabId) => {
+    debugStateStorage.getStateForActiveTab((state, tabId) => {
       if (!state) {
         return
       }
@@ -45,50 +45,20 @@ export default function Url({ modelIn }) {
     setModel(newModel)
   }
 
-  function setDebug() {
-    getStateForCurrentTab((state, tabId) => {
-      let activeUrlId = state.getUrlId()
-
-      if (activeUrlId && activeUrlId === model.getId()) {
-        toggleDebugRefOff(tabId, (result) => {
-          if (result) {
-            state.setUrlId(null)
-
-            debugStateStorage.setState(tabId, state, (newState) => {
-              if (newState.getUrlId() == null) {
-                setActive(false)
-                SetIcon.setReady(tabId)
-              }
-            })
-          }
-        })
-      } else {
-        toggleDebugRefOn(tabId, model, (result) => {
-          if (result) {
-            state.setUrlId(model.getId())
-
-            debugStateStorage.setState(tabId, state, (newState) => {
-              if (newState.getUrlId() == model.getId()) {
-                setActive(true)
-                SetIcon.setLive(tabId)
-              }
-            })
-          }
-        })
-      }
-    })
+  function toggleDebugRefMode() {
+    toggleDebugRef(model, setActive)
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.status}>{active + ''}</div>
-        <div className={styles.title} onClick={setDebug}>
+        <div className={styles.title} onClick={toggleDebugRefMode}>
           <div className={styles.name}>{getName(model)}</div>
           <div className={styles.detail}>{getDetail(model)}</div>
         </div>
         <div className={styles.edit} onClick={toggleEdit}>
-          <img src={Gear} />
+          <Gear size="20px" color="var(--surface-on)" />
         </div>
       </div>
       {edit && (
@@ -111,20 +81,4 @@ function getDetail(model) {
   let port = model.getPort() || 'Port'
 
   return `${url}:${port}`
-}
-
-function getStateForCurrentTab(callback) {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    let tabId = tabs[0].id
-
-    debugStateStorage.getState(tabId, (state) => {
-      if (!state) {
-        debugStateStorage.setState(tabId, new DebugStateModel(), (newState) => {
-          callback(newState, tabId)
-        })
-      } else {
-        callback(state, tabId)
-      }
-    })
-  })
 }

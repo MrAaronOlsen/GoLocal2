@@ -1,6 +1,7 @@
 import ChromeStorage from './ChromeStorage'
 import Storage from './Storage'
 
+import { getActiveTab } from 'scripts'
 import { DebugStateModel } from 'models'
 
 const ID = 'DEBUG_STATE_STORAGE'
@@ -42,5 +43,19 @@ export default class DebugStateStorage extends Storage {
       delete container[tabId]
       callback()
     })
+  }
+
+  getStateForActiveTab(callback) {
+    getActiveTab((tabId) =>
+      this.getState(tabId, (state) => {
+        if (!state) {
+          this.setState(tabId, new DebugStateModel(), (newState) => {
+            callback(newState, tabId)
+          })
+        } else {
+          callback(state, tabId)
+        }
+      }),
+    )
   }
 }
