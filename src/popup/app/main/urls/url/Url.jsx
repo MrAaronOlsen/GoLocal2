@@ -1,19 +1,15 @@
 import React from 'react'
 
 import { toggleDebugRef } from 'scripts'
-import { DebugStateStorage } from 'storage'
 import { Gear } from 'icons'
 
 import UrlForm from './urlform/UrlForm'
 
 import styles from './styles.mod.scss'
 
-const debugStateStorage = new DebugStateStorage()
-
-export default function Url({ modelIn }) {
+export default function Url({ modelIn, active, setActive }) {
   const [model, setModel] = React.useState(modelIn)
   const [edit, setEdit] = React.useState(false)
-  const [active, setActive] = React.useState(false)
 
   React.useEffect(() => {
     if (!modelIn.validate()) {
@@ -25,19 +21,6 @@ export default function Url({ modelIn }) {
   function toggleEdit() {
     setEdit(!edit)
   }
-
-  React.useEffect(() => {
-    debugStateStorage.getStateForActiveTab((state, tabId) => {
-      if (!state) {
-        return
-      }
-
-      let activeUrlId = state.getUrlId()
-      if (activeUrlId && activeUrlId === model.getId()) {
-        setActive(true)
-      }
-    })
-  }, [])
 
   function onFormChange(name, url, port) {
     let newModel = model.clone().setName(name).setUrl(url).setPort(port)
@@ -52,7 +35,9 @@ export default function Url({ modelIn }) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className={styles.status}>{active ? 'On' : ''}</div>
+        <div className={styles.status}>
+          {active === model.getId() ? 'On' : ''}
+        </div>
         <div className={styles.title} onClick={toggleDebugRefMode}>
           <div className={styles.name}>{getName(model)}</div>
           <div className={styles.detail}>{getDetail(model)}</div>

@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { EventBus, Events } from 'event'
+import ThemeExample from './ThemeExample'
 
 import styles from './styles.mod.scss'
 
@@ -43,6 +44,7 @@ export default function ThemeConfig({ getConfig, setConfig }) {
       <StyledTheme className={styles.entry} active={theme === 'dark'}>
         <div onClick={() => changeTheme('dark')}>Dark</div>
       </StyledTheme>
+      <ThemeExample />
     </div>
   )
 }

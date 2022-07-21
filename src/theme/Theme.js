@@ -5,22 +5,27 @@ import { EventBus, Events } from 'event'
 import { ConfigStorage } from 'storage'
 
 const GlobalStyle = createGlobalStyle(
-  ({ primary, background, surface, error }) => `
+  ({ primary, secondary, background, surface, foreground }) => `
     :root {
       --primary-main: ${primary.main};
-      --primary-variant: ${primary.variant};
       --primary-on: ${primary.on};
       --primary-border: ${primary.border};
 
+      --secondary-main: ${secondary.main};
+      --secondary-on: ${secondary.on};
+      --secondary-border: ${secondary.border};
+
       --background-main: ${background.main};
       --background-on: ${background.on};
+      --background-border: ${background.border};
 
       --surface-main: ${surface.main};
-      --surface-main-light: ${surface.mainLight};
       --surface-on: ${surface.on};
+      --surface-border: ${surface.border};
 
-      --error-main: ${error.main};
-      --error-on: ${error.on};
+      --foreground-main: ${foreground.main};
+      --foreground-on: ${foreground.on};
+      --foreground-border: ${foreground.border};
     }
 `,
 )
@@ -58,44 +63,55 @@ const themes = {
   light: {
     primary: {
       main: '#1565c0',
-      variant: '#003c8f',
       on: '#ffffff',
-      border: '#ababab',
+      border: '#909090',
+    },
+    secondary: {
+      main: '#1565c0',
+      on: '#ffffff',
+      border: '#909090',
     },
     background: {
-      main: '#dfdfdf',
+      main: '#ffffff',
       on: '#000000',
+      border: '#ffffff',
     },
     surface: {
-      main: '#efefef',
-      mainLight: '#ffffff',
+      main: '#dedede',
       on: '#000000',
+      border: '#dedede',
     },
-    error: {
-      main: '#b00020',
-      on: '#ffffff',
+    foreground: {
+      main: '#ababab',
+      on: '#000000',
+      border: '#ababab',
     },
   },
-
   dark: {
     primary: {
       main: '#2f343d',
-      variant: '#1565c0',
+      on: '#ffffff',
+      border: '#808080',
+    },
+    secondary: {
+      main: '#1565c0',
       on: '#ffffff',
       border: '#808080',
     },
     background: {
       main: '#161c26',
       on: '#ffffff',
+      border: '#808080',
     },
     surface: {
       main: '#2f343d',
-      mainLight: '#4f545d',
       on: '#ffffff',
+      border: '#808080',
     },
-    error: {
-      main: '#cf6679',
-      on: '#000000',
+    foreground: {
+      main: '#4f545d',
+      on: '#ffffff',
+      border: '#808080',
     },
   },
 }

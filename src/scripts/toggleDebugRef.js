@@ -17,7 +17,7 @@ export default function toggle(model, callback) {
 
           debugStateStorage.setState(tabId, state, (newState) => {
             if (newState.getUrlId() == null) {
-              callback(false)
+              callback(null)
               SetIcon.setReady(tabId)
             }
           })
@@ -29,8 +29,10 @@ export default function toggle(model, callback) {
           state.setUrlId(model.getId())
 
           debugStateStorage.setState(tabId, state, (newState) => {
-            if (newState.getUrlId() == model.getId()) {
-              callback(true)
+            let stateId = newState.getUrlId()
+
+            if (stateId == model.getId()) {
+              callback(stateId)
               SetIcon.setLive(tabId)
             }
           })
