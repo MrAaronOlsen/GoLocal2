@@ -1,17 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import styles from './styles.mod.scss'
+import * as styles from './styles.mod.scss'
 
-const Styled = styled.div(
-  ({ color, size }) => `
-    font-size: ${size || 'inherit'};
-    color: ${color || 'var(--primary-variant)'};
-  `,
-)
+import Icon from '../Icon'
 
 export default function Gear({ color, size, ...props }) {
   return (
-    <Styled className={styles.container} color={color} size={size} {...props} />
+    <Icon color={color} size={size} {...props}>
+      <div className={styles.container}/>
+    </Icon>
   )
 }

@@ -13,6 +13,10 @@ export default class Container {
     return this.#payload[name]
   }
 
+  remove(name) {
+    Reflect.deleteProperty(this.#payload, name)
+  }
+
   getAll() {
     return Object.values(this.#payload)
   }

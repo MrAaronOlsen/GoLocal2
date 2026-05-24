@@ -4,7 +4,7 @@ import { ConfigStorage } from 'storage'
 
 import ThemeConfig from './themeconfig/ThemeConfig'
 import StorageConfig from './storageconfig/StorageConfig'
-import styles from './styles.mod.scss'
+import * as styles from './styles.mod.scss'
 
 const configStorage = new ConfigStorage()
 

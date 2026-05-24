@@ -3,6 +3,10 @@ import Model from './Model'
 const NAME = 'name'
 const URL = 'url'
 const PORT = 'port'
+const WS = 'ws'
+const WS_PORT = 'wsport'
+const AUTH = 'auth'
+const AUTH_PORT = 'authport'
 
 export default class UrlModel extends Model {
   constructor(payload) {
@@ -41,6 +45,42 @@ export default class UrlModel extends Model {
 
   getPort() {
     return this.get(PORT)
+  }
+
+  setWebSocket(ws) {
+    this.set(WS, ws)
+    return this
+  }
+
+  getWebSocket() {
+    return this.get(WS)
+  }
+
+  setWebSocketPort(wsPort) {
+    this.set(WS_PORT, wsPort)
+    return this
+  }
+
+  getWebSocketPort() {
+    return this.get(WS_PORT)
+  }
+
+  setAuth(url) {
+    this.set(AUTH, url)
+    return this
+  }
+
+  getAuth() {
+    return this.get(AUTH)
+  }
+
+  setAuthPort(port) {
+    this.set(AUTH_PORT, port)
+    return this
+  }
+
+  getAuthPort() {
+    return this.get(AUTH_PORT)
   }
 
   clone() {

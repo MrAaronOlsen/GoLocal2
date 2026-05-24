@@ -1,21 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import * as styles from './styles.mod.scss'
+
 const StyledInput = styled.input(
   ({ width, height }) => `
       width: ${width || '100%'};
       width: ${height || '100%'};
-
-      margin: 1px;
-      padding: 3px;
-
-      &:focus, &:focus-visible {
-        outline: none;
-      }
     `,
 )
 
 export default function TextInput({
+  title,
   name,
   placeholder,
   value,
@@ -30,15 +26,20 @@ export default function TextInput({
   }
 
   return (
-    <StyledInput
-      value={value || ''}
-      name={name}
-      placeholder={placeholder || ''}
-      onChange={handleChange}
-      type={'text'}
-      autoComplete="off"
-      readOnly={disable}
-      {...styleProps}
-    />
+    <div className={styles.container}>
+      <div className={styles.title}>{title}</div>
+      <StyledInput
+        value={value || ''}
+        name={name}
+        placeholder={placeholder || ''}
+        onChange={handleChange}
+        type={'text'}
+        autoComplete="off"
+        readOnly={disable}
+        className={styles.input}
+        {...styleProps}
+      />
+    </div>
+
   )
 }

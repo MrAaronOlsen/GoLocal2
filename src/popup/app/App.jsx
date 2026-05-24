@@ -1,11 +1,12 @@
 import React from 'react'
 
-import { Header } from './header'
+import { Header } from './Header'
 import { Main } from './Main'
-import { Footer } from './footer'
+import { Footer } from './Footer'
 
 import { Theme } from 'theme'
-import styles from './styles.mod.scss'
+
+import * as styles from './styles.mod.scss'
 
 export default function App() {
   const [pages, setPages] = React.useState([['main', <Main />]])
@@ -35,7 +36,7 @@ export default function App() {
     <React.Fragment>
       <Theme />
       <div className={styles.container}>
-        <Header />
+        <Header/>
         {pages.at(-1)[1]}
         <Footer navigate={navigate} />
       </div>

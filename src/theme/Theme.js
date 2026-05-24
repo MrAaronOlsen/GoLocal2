@@ -37,7 +37,6 @@ export function Theme() {
 
   React.useEffect(() => {
     configStorage.getConfig((config) => {
-      console.log(config.toJson())
       const theme = themes[config.getTheme()]
 
       if (theme) {
@@ -62,55 +61,55 @@ export function Theme() {
 const themes = {
   light: {
     primary: {
-      main: '#1565c0',
-      on: '#ffffff',
-      border: '#909090',
+      main: '#9bd0fb',
+      on: '#4b4b4b',
+      border: '#d7d7d7',
     },
     secondary: {
       main: '#1565c0',
-      on: '#ffffff',
+      on: '#4b4b4b',
       border: '#909090',
     },
     background: {
       main: '#ffffff',
-      on: '#000000',
+      on: '#4b4b4b',
       border: '#ffffff',
     },
     surface: {
       main: '#dedede',
-      on: '#000000',
-      border: '#dedede',
+      on: '#4b4b4b',
+      border: '#979696',
     },
     foreground: {
       main: '#ababab',
-      on: '#000000',
+      on: '#4b4b4b',
       border: '#ababab',
     },
   },
   dark: {
     primary: {
       main: '#2f343d',
-      on: '#ffffff',
+      on: '#b3b3b3',
       border: '#808080',
     },
     secondary: {
       main: '#1565c0',
-      on: '#ffffff',
+      on: '#b3b3b3',
       border: '#808080',
     },
     background: {
       main: '#161c26',
-      on: '#ffffff',
+      on: '#b3b3b3',
       border: '#808080',
     },
     surface: {
       main: '#2f343d',
-      on: '#ffffff',
+      on: '#b3b3b3',
       border: '#808080',
     },
     foreground: {
       main: '#4f545d',
-      on: '#ffffff',
+      on: '#b3b3b3',
       border: '#808080',
     },
   },

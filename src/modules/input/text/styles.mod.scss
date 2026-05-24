@@ -1,0 +1,28 @@
+.container {
+  padding: 2px;
+
+  border-left: 1px solid var(--secondary-main);
+  border-top-left-radius: 3px;
+
+  margin-bottom: 8px;
+
+  .title {
+    font-size: 10px;
+    font-weight: 800;
+
+    padding-left: 3px;
+    padding-top: 3px;
+  }
+
+  .input {
+    padding: 3px;
+
+    border-bottom: 1px solid var(--primary-border);
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      border-bottom: 2px solid var(--primary-border);
+    }
+  }
+}

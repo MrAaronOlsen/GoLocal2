@@ -2,7 +2,7 @@ import React from 'react'
 
 import { UrlStorage } from 'storage'
 
-import styles from './styles.mod.scss'
+import * as styles from './styles.mod.scss'
 
 export default function StorageConfig({ getConfig, setConfig }) {
   const [confirm, setConfirm] = React.useState(false)

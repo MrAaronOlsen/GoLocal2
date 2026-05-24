@@ -39,10 +39,18 @@ export default class DebugStateStorage extends Storage {
   }
 
   removeState(tabId, callback) {
-    getContainer((container) => {
-      delete container[tabId]
-      callback()
-    })
+    try {
+      this.getContainer((container) => {
+        container.remove(tabId)
+
+        this.setContainer(container, (persisted) => {
+          callback && callback()
+        })
+      })
+    } catch (error) {
+      console.error(error)
+    }
+
   }
 
   getStateForActiveTab(callback) {

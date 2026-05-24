@@ -1,5 +1,7 @@
-export { default as getActiveTab } from './getActiveTab'
-export { default as testDebugState } from './testDebugState'
-export { default as toggleDebugRef } from './toggleDebugRef'
-
 export { default as SetIcon } from './SetIcon'
+export { default as updateIcon } from './updateIcon'
+export { default as getActiveTab } from './getActiveTab'
+export { default as testDebugStatus } from './testDebugStatus'
+export { default as toggleDebugRef } from './toggleDebugRef'
+export { default as toggleDebugRefOn } from './toggleDebugRefOn'
+export { default as toggleDebugRefOff } from './toggleDebugRefOff'

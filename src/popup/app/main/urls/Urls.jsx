@@ -3,49 +3,49 @@ import React from 'react'
 import { Url } from './url'
 import { UrlModel } from 'models'
 import { UrlStorage } from 'storage'
-import { DebugStateStorage } from 'storage'
+import { Config } from 'config'
+import { Gear } from 'icons'
+import { EventBus, Events } from 'event'
 
-import styles from './styles.mod.scss'
+import * as styles from './styles.mod.scss'
 
-export default function Urls({}) {
+export default function Urls({ }) {
   const [urls, setUrls] = React.useState([])
-  const [active, setActive] = React.useState(null)
 
   React.useEffect(() => {
     new UrlStorage().getAll(setUrls)
   }, [])
 
   React.useEffect(() => {
-    new DebugStateStorage().getStateForActiveTab((state, tabId) => {
-      if (!state) {
-        return
-      }
+    EventBus.on(Events.ADD_URL, addNew)
+    return () => EventBus.remove(Events.ADD_URL, addNew)
+  })
 
-      setActive(state.getUrlId())
-    })
-  }, [])
+  React.useEffect(() => {
+    EventBus.on(Events.DELETE_URL, removeUrl)
+    return () => EventBus.remove(Events.DELETE_URL, removeUrl)
+  })
 
-  function addNew() {
+  const addNew = React.useCallback((data) => {
     setUrls([...urls, UrlModel.withId()])
-  }
+  })
+
+  const removeUrl = React.useCallback((data) => {
+    new UrlStorage().deleteUrl(data.detail.id, (container) => { })
+
+    setUrls(urls.filter(function (url) {
+      return url.getId() !== data.detail.id
+    }))
+  })
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>Urls</div>
       <div className={styles.list}>
         {urls.map((url) => {
           return (
-            <Url
-              key={url.getId()}
-              modelIn={url}
-              active={active}
-              setActive={setActive}
-            />
+            <Url key={url.getId()} modelIn={url} />
           )
         })}
-      </div>
-      <div className={styles.footer}>
-        <div onClick={addNew}>Add</div>
       </div>
     </div>
   )

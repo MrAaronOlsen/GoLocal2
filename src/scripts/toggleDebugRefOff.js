@@ -1,32 +1,25 @@
+import getTabCompatibility from './getTabCompatibility'
+
 export default function toggleDebugRefOff(tabId, callback) {
-  chrome.scripting
-    .executeScript({
-      target: { tabId: tabId },
-      world: 'MAIN',
-      func: () => {
-        if (window.hasOwnProperty('nwtServerDebugRef')) {
-          console.log(`[Go Local] Turning off debug mode`)
 
-          window.nwtServerDebugRef.off()
-          return true
-        }
-
-        return false
-      },
-    })
-    .then(
-      (frames) => {
-        callback(frames && frames[0].result)
-      },
-      (error) => {
-        console.log('[Go Local] Debug Off Error')
-        console.log(error)
-
-        // Swollow the error. This is likely due to the page rejecting injected code,
-        // which means we cant do anything
-        callback(false)
-      },
-    )
+  getTabCompatibility(tabId, result => {
+    if (!result) {
+      callback(false)
+    } else {
+      chrome.scripting
+        .executeScript({
+          target: { tabId: tabId },
+          world: 'MAIN',
+          func: () => {
+            window.nwtServerDebugRef.off()
+          },
+        })
+        .then(frames => callback(true))
+        .catch(error => {
+          console.error('[Go Local] ' + error)
+          callback(false)
+        },
+        )
+    }
+  })
 }
-
-function toggleOff() {}

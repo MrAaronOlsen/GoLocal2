@@ -26,7 +26,17 @@ export default class UrlStorage extends Storage {
 
   getUrl(id, callback) {
     this.getContainer((container) => {
-      callback(new UrlModle(container.get(id)))
+      callback(new UrlModel(container.get(id)))
+    })
+  }
+
+  deleteUrl(id, callback) {
+    this.getContainer((container) => {
+      container.remove(id)
+
+      this.setContainer(container, (persisted) => {
+        callback && callback(persisted)
+      })
     })
   }
 

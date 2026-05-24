@@ -1,36 +1,59 @@
+import getTabCompatibility from './getTabCompatibility'
+import { UrlModel } from 'models'
+
 export default function toggleDebugRefOn(tabId, urlModel, callback) {
-  const url = urlModel.getUrl()
-  const port = urlModel.getPort()
+  getTabCompatibility(tabId, result => {
+    if (!result) {
+      callback(false)
+    } else {
 
-  chrome.scripting
-    .executeScript({
-      target: { tabId: tabId },
-      world: 'MAIN',
-      func: (port, url) => {
-        if (window.hasOwnProperty('nwtServerDebugRef')) {
-          console.log(
-            `[Go Local] Setting Debug Mode. Url: ${url}, Port: ${port}`,
-          )
+      const version = result.version
+      const url = urlModel.getUrl()
+      const port = urlModel.getPort()
+      const wsUrl = urlModel.getWebSocket()
+      const wsPort = urlModel.getWebSocketPort()
+      const authUrl = urlModel.getAuth()
+      const authPort = urlModel.getAuthPort()
 
-          window.nwtServerDebugRef.on(port, url)
-          return true
-        }
+      let ref = {
+        on: true
+      }
 
-        return false
-      },
-      args: [port, url],
-    })
-    .then(
-      (frames) => {
-        callback(frames && frames[0].result)
-      },
-      (error) => {
-        console.log('[Go Local] Debug On Error')
-        console.log(error)
+      if (url && port) {
+        ref['url'] = url
+        ref['port'] = port
+      }
 
-        // Swollow the error. This is likely due to the page rejecting injected code,
-        // which means we cant do anything
-        callback(false)
-      },
-    )
+      if (wsUrl && wsPort) {
+        ref['wsUrl'] = wsUrl
+        ref['wsPort'] = wsPort
+      }
+
+      if (authUrl && authPort) {
+        ref['authUrl'] = auth + ":" + authPort
+      }
+
+      chrome.scripting
+        .executeScript({
+          target: { tabId: tabId },
+          world: 'MAIN',
+          func: toggle,
+          args: [version, ref],
+        })
+        .then(frames => callback(true))
+        .catch(error => {
+          console.error('[Go Local] ' + error)
+          callback(false)
+        })
+    }
+  })
+}
+
+function toggle(version, ref) {
+
+  if (version === 'V2') {
+    window.nwtServerDebugRef.set(ref)
+  } else {
+    window.nwtServerDebugRef.on(ref.port, ref.url)
+  }
 }

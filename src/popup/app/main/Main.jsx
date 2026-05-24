@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Urls } from './urls'
-import styles from './styles.mod.scss'
+import * as styles from './styles.mod.scss'
 
 export default function Config({}) {
   return (

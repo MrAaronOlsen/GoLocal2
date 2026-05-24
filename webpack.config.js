@@ -2,6 +2,7 @@ const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = () => {
   return {
@@ -10,12 +11,12 @@ module.exports = () => {
     entry: {
       background: {
         import: './src/background/background.js',
-        filename: 'background.js',
+        filename: 'background.js'
       },
       popup: {
         import: './src/popup/popup.js',
-        filename: 'popup.js',
-      },
+        filename: 'popup.js'
+      }
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -49,11 +50,11 @@ const scssModule = () => {
   return {
     test: /\.scss$/,
     use: [
-      'style-loader',
+      MiniCssExtractPlugin.loader,
       {
         loader: 'css-loader',
         options: {
-          modules: true,
+          modules: true
         },
       },
       'sass-loader',
@@ -65,7 +66,7 @@ const scssModule = () => {
 const scssGlobal = () => {
   return {
     test: /\.(css|scss)$/,
-    use: ['style-loader', 'css-loader', 'sass-loader'],
+    use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
     exclude: /\.mod\.scss$/,
   }
 }
@@ -99,6 +100,7 @@ const plugins = () => {
       template: path.resolve(__dirname, 'src', 'popup', 'index.html'),
       chunks: ['popup'],
     }),
+    new MiniCssExtractPlugin()
   ]
 }
 
@@ -108,10 +110,12 @@ let aliases = () => {
     event: path.resolve(__dirname, 'src/event'),
     icons: path.resolve(__dirname, 'src/modules/icons'),
     input: path.resolve(__dirname, 'src/modules/input'),
+    button: path.resolve(__dirname, 'src/modules/button'),
     models: path.resolve(__dirname, 'src/models'),
     scripts: path.resolve(__dirname, 'src/scripts'),
     storage: path.resolve(__dirname, 'src/utils/storage'),
     theme: path.resolve(__dirname, 'src/theme'),
     assets: path.resolve(__dirname, 'src/assets'),
+    config: path.resolve(__dirname, 'src/popup/app/config'),
   }
 }

@@ -1,43 +1,51 @@
-import SetIcon from './SetIcon'
+
 import toggleDebugRefOn from './toggleDebugRefOn'
 import toggleDebugRefOff from './toggleDebugRefOff'
+import getActiveTab from './getActiveTab'
+import testDebugStatus from './testDebugStatus'
 
 import { DebugStateStorage } from 'storage'
+import { DebugStateModel } from 'models'
 
 const debugStateStorage = new DebugStateStorage()
 
-export default function toggle(model, callback) {
-  debugStateStorage.getStateForActiveTab((state, tabId) => {
-    let activeUrlId = state.getUrlId()
+export default function toggleDebugRef(model, callback) {
 
-    if (activeUrlId && activeUrlId === model.getId()) {
-      toggleDebugRefOff(tabId, (result) => {
-        if (result) {
-          state.setUrlId(null)
+  getActiveTab(tabId => {
+    testDebugStatus(tabId, (status, result) => {
+      switch (status) {
+        case ('DISABLED'): {
+          // NoOp
+          break
+        }
+        case ('READY'): {
+          // If ready, turn on.
+          toggleDebugRefOn(tabId, model, (result) => {
+            if (result) {
+              let state = new DebugStateModel().setUrlId(model.getId())
 
-          debugStateStorage.setState(tabId, state, (newState) => {
-            if (newState.getUrlId() == null) {
-              callback(null)
-              SetIcon.setReady(tabId)
+              debugStateStorage.setState(tabId, state, (newState) => {
+                callback(newState.getUrlId())
+              })
             }
           })
+
+          break
         }
-      })
-    } else {
-      toggleDebugRefOn(tabId, model, (result) => {
-        if (result) {
-          state.setUrlId(model.getId())
+        case ('LIVE'): {
+          // If already on, turn off.
 
-          debugStateStorage.setState(tabId, state, (newState) => {
-            let stateId = newState.getUrlId()
-
-            if (stateId == model.getId()) {
-              callback(stateId)
-              SetIcon.setLive(tabId)
+          toggleDebugRefOff(tabId, (result) => {
+            if (result) {
+              debugStateStorage.removeState(tabId, () => {
+                callback(null)
+              })
             }
           })
+
+          break
         }
-      })
-    }
+      }
+    })
   })
 }
