@@ -32,7 +32,7 @@ const GlobalStyle = createGlobalStyle(
 
 const configStorage = new ConfigStorage()
 
-export function Theme() {
+export default function Theme() {
   const [theme, setTheme] = React.useState(themes.light)
 
   React.useEffect(() => {

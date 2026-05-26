@@ -1,59 +1,53 @@
 import React from 'react'
+import styled from 'styled-components'
 
-import { testDebugStatus, toggleDebugRef, getActiveTab, updateIcon } from 'scripts'
+import { toggleDebugRef, getActiveTab, testTabRef } from 'scripts'
 import { On, Wrench } from 'icons'
+import { Color } from 'theme'
 import { EventBus, Events } from 'event'
-import { DebugStateStorage } from 'storage'
+import { TabRefStorage } from 'storage'
+import { RefModel } from 'models'
 
 import UrlConfig from './urlconfig/UrlConfig'
 
 import * as styles from './styles.mod.scss'
 
+const tabRefStorage = new TabRefStorage()
+
 export default function Url({ modelIn }) {
   const [model, setModel] = React.useState(modelIn)
   const [edit, setEdit] = React.useState(false)
+  const [ref, setRef] = React.useState(null)
   const [active, setActive] = React.useState(false)
 
   React.useEffect(() => {
     if (!modelIn.validate()) {
       setEdit(true)
-      setModel(modelIn)
     }
-  }, [modelIn])
 
-  React.useEffect(() => {
     getActiveTab(tabId => {
-      testDebugStatus(tabId, (status, result) => {
-
-        switch (status) {
-          case ('DISABLED'): setActive(false); break
-          case ('READY'): setActive(false); break
-          case ('LIVE'): {
-            let version = result.version;
-
-            if (version === 'V2') {
-              let ref = result.ref
-              setActive(ref.url === model.getUrl())
-            } else {
-              new DebugStateStorage().getStateForActiveTab((state, tabId) => {
-                if (!state) {
-                  setActive(false)
-                } else {
-                  setActive(state.getUrlId() === model.getId())
-                }
-              })
-            }
-
-            break
-          }
-        }
+      testTabRef(tabId, (status, version, ref) => {
+        setRef(new RefModel(ref))
       })
     })
   }, [])
 
   React.useEffect(() => {
+    setActive(ref && ref.getOn() && model.containsRef(ref.toRef()))
+  }, [ref])
+
+  React.useEffect(() => {
+    EventBus.on(Events.REF_CHANGED, handleRefChange)
+    return () => EventBus.remove(Events.REF_CHANGED, handleRefChange)
+  })
+
+  const handleRefChange = React.useCallback((data) => {
+    setRef(new RefModel(data.detail.ref))
+  })
+
+  React.useEffect(() => {
     EventBus.dispatch(Events.EDIT_MODE_CHANGED, {
-      editMode: edit,
+      editMode: edit
     })
   }, [edit])
 
@@ -61,40 +55,31 @@ export default function Url({ modelIn }) {
     setEdit(!edit)
   }
 
-  function onFormChange(name, url, port, ws, wsPort, auth, authPort) {
+  function onFormChange(name, url, port, ws, wsPort) {
     let newModel = model.clone()
       .setName(name)
       .setUrl(url)
       .setPort(port)
-      .setWebSocket(ws)
+      .setWebSocketUrl(ws)
       .setWebSocketPort(wsPort)
-      .setAuth(auth)
-      .setAuthPort(authPort)
 
     setModel(newModel)
   }
 
   function toggleDebugRefMode() {
-    toggleDebugRef(model, (debugStateId) => {
-      getActiveTab(tabId => {
-        updateIcon(tabId)
-      })
-
-      setActive(debugStateId)
-    })
+    toggleDebugRef(new RefModel(model.toJson()).toRef())
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.status}>
-          {active ? <On size='20px' /> : null}
+          {active ? <On color={Color.GREEN.getColor()} size='20px' /> : null}
         </div>
         <div className={styles.title} onClick={toggleDebugRefMode}>
           <div className={styles.name}>{getName(model)}</div>
-          <div className={styles.detail}>{getUrlDetail(model)}</div>
-          <div className={styles.detail}>{getWSDetail(model)}</div>
-          <div className={styles.detail}>{getAuthDetail(model)}</div>
+          {buildDetail(model.getUrl(), model.getPort(), ref)}
+          {buildDetail(model.getWebSocketUrl(), model.getWebSocketPort(), ref)}
         </div>
         {!edit && <Wrench title='Edit config' size="20px" onClick={toggleEdit} />}
       </div>
@@ -113,34 +98,19 @@ function getName(model) {
   return model.getName() || 'Name'
 }
 
-function getUrlDetail(model) {
-  let url = model.getUrl()
-  let port = model.getPort()
+const StyledDetail = styled.div(
+  ({ color, size }) => `
+    color: ${color || 'var(--surface-on)'};
+  `,
+)
 
-  if (url || port) {
-    return `${url}:${port}`
-  }
-
-  return null
-}
-
-function getWSDetail(model) {
-  let ws = model.getWebSocket()
-  let port = model.getWebSocketPort()
-
-  if (ws || port) {
-    return `${ws}:${port}`
-  }
-
-  return null
-}
-
-function getAuthDetail(model) {
-  let auth = model.getAuth()
-  let authPort = model.getAuthPort()
-
-  if (auth || authPort) {
-    return `${auth}:${authPort}`
+function buildDetail(url, port, ref) {
+  if (url && port) {
+    return <div className={styles.detail}>
+      <StyledDetail color={ref && ref.containsValue(url) ? Color.GREEN.getColor() : null}>{url}</StyledDetail>
+      <div>:</div>
+      <StyledDetail color={ref && ref.containsValue(url) ? Color.GREEN.getColor() : null}>{port}</StyledDetail>
+    </div>
   }
 
   return null

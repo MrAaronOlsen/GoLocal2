@@ -1,13 +1,12 @@
-import SetIcon from "./SetIcon"
-import testDebugStatus from "./testDebugStatus"
+import { testTabRef, SetIcon } from 'scripts'
 
 export default function updateIcon(tabId) {
-  testDebugStatus(tabId, (status, result) => {
+  testTabRef(tabId, (status, version, ref) => {
     
     switch (status) {
       case ('DISABLED'): SetIcon.setDisabled(tabId); break
-      case ('READY'): SetIcon.setReady(tabId, result.version); break
-      case ('LIVE'): SetIcon.setLive(tabId, result.version); break
+      case ('READY'): SetIcon.setReady(tabId, version); break
+      case ('LIVE'): SetIcon.setLive(tabId, version); break
     }
   })
 }

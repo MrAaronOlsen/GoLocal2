@@ -12,23 +12,19 @@ export default function UrlConfig({ model, onFormChange, onSave }) {
   const [name, setName] = React.useState(model.getName())
   const [url, setUrl] = React.useState(model.getUrl())
   const [port, setPort] = React.useState(model.getPort())
-  const [ws, setWs] = React.useState(model.getWebSocket())
+  const [ws, setWs] = React.useState(model.getWebSocketUrl())
   const [wsPort, setWsPort] = React.useState(model.getWebSocketPort())
-  const [auth, setAuth] = React.useState(model.getAuth())
-  const [authPort, setAuthPort] = React.useState(model.getAuthPort())
 
   React.useEffect(() => {
-    onFormChange(name, url, port, ws, wsPort, auth, authPort)
-  }, [name, url, port, ws, wsPort, auth, authPort])
+    onFormChange(name, url, port, ws, wsPort)
+  }, [name, url, port, ws, wsPort])
 
   function save() {
     model.setName(name)
       .setUrl(url)
       .setPort(port)
-      .setWebSocket(ws)
+      .setWebSocketUrl(ws)
       .setWebSocketPort(wsPort)
-      .setAuth(auth)
-      .setAuthPort(authPort)
 
     new UrlStorage().setUrl(model, onSave)
   }
@@ -51,10 +47,6 @@ export default function UrlConfig({ model, onFormChange, onSave }) {
         <div className={styles.url}>
           <TextInput title="Web Socket" name="ws" placeholder="Web Socket" value={ws} onChange={setWs} />
           <TextInput title="WSPort" name="wsport" placeholder="Web Socket Port" value={wsPort} onChange={setWsPort} />
-        </div>
-        <div className={styles.url}>
-          <TextInput title="Auth Url" name="auth" placeholder="Auth Url" value={auth} onChange={setAuth} />
-          <TextInput title="WSPort" name="authport" placeholder="Auth Url Port" value={authPort} onChange={setAuthPort} />
         </div>
 
       </div>

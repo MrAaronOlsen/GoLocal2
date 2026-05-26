@@ -3,10 +3,8 @@ import Model from './Model'
 const NAME = 'name'
 const URL = 'url'
 const PORT = 'port'
-const WS = 'ws'
-const WS_PORT = 'wsport'
-const AUTH = 'auth'
-const AUTH_PORT = 'authport'
+const WS_URL = 'wsUrl'
+const WS_PORT = 'wsPort'
 
 export default class UrlModel extends Model {
   constructor(payload) {
@@ -47,13 +45,13 @@ export default class UrlModel extends Model {
     return this.get(PORT)
   }
 
-  setWebSocket(ws) {
-    this.set(WS, ws)
+  setWebSocketUrl(ws) {
+    this.set(WS_URL, ws)
     return this
   }
 
-  getWebSocket() {
-    return this.get(WS)
+  getWebSocketUrl() {
+    return this.get(WS_URL)
   }
 
   setWebSocketPort(wsPort) {
@@ -65,22 +63,14 @@ export default class UrlModel extends Model {
     return this.get(WS_PORT)
   }
 
-  setAuth(url) {
-    this.set(AUTH, url)
-    return this
-  }
+  containsRef(ref) {
+    if (!ref) {
+      return false
+    }
 
-  getAuth() {
-    return this.get(AUTH)
-  }
-
-  setAuthPort(port) {
-    this.set(AUTH_PORT, port)
-    return this
-  }
-
-  getAuthPort() {
-    return this.get(AUTH_PORT)
+    return Object.entries(ref).some(([key, value]) =>
+      this.toJson().hasOwnProperty(key) && this.toJson()[key] === value
+    )
   }
 
   clone() {

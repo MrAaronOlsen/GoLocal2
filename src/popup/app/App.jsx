@@ -36,7 +36,7 @@ export default function App() {
     <React.Fragment>
       <Theme />
       <div className={styles.container}>
-        <Header/>
+        <Header />
         {pages.at(-1)[1]}
         <Footer navigate={navigate} />
       </div>

@@ -4,10 +4,21 @@ const eventBus = {
   },
   dispatch(event, data) {
     document.dispatchEvent(new CustomEvent(event.getName(), { detail: data }))
+    chrome.runtime.sendMessage({ name: event.getName(), detail: data })
   },
   remove(event, callback) {
     document.removeEventListener(event.getName(), callback)
   },
+  onBackground(event, callback) {
+
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      let messageEvent = message.name
+
+      if (event.getName() === messageEvent) {
+        callback(message)
+      }
+    })
+  }
 }
 
 export default eventBus

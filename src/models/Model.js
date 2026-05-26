@@ -25,6 +25,10 @@ export default class Model {
     this.#payload[field] = value
   }
 
+  containsValue(value) {
+    return Object.values(this.#payload).some(v => v === value)
+  }
+
   toJson() {
     return this.#payload
   }

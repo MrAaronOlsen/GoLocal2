@@ -1,38 +1,11 @@
-import getTabCompatibility from './getTabCompatibility'
+import getTabVersion from './getTabVersion'
 import { UrlModel } from 'models'
 
-export default function toggleDebugRefOn(tabId, urlModel, callback) {
-  getTabCompatibility(tabId, result => {
-    if (!result) {
-      callback(false)
-    } else {
+export default function toggleDebugRefOn(tabId, ref, callback) {
+  ref['on'] = true
 
-      const version = result.version
-      const url = urlModel.getUrl()
-      const port = urlModel.getPort()
-      const wsUrl = urlModel.getWebSocket()
-      const wsPort = urlModel.getWebSocketPort()
-      const authUrl = urlModel.getAuth()
-      const authPort = urlModel.getAuthPort()
-
-      let ref = {
-        on: true
-      }
-
-      if (url && port) {
-        ref['url'] = url
-        ref['port'] = port
-      }
-
-      if (wsUrl && wsPort) {
-        ref['wsUrl'] = wsUrl
-        ref['wsPort'] = wsPort
-      }
-
-      if (authUrl && authPort) {
-        ref['authUrl'] = auth + ":" + authPort
-      }
-
+  getTabVersion(tabId, (version, currentRef) => {
+    if (version) {
       chrome.scripting
         .executeScript({
           target: { tabId: tabId },
@@ -45,6 +18,8 @@ export default function toggleDebugRefOn(tabId, urlModel, callback) {
           console.error('[Go Local] ' + error)
           callback(false)
         })
+    } else {
+      callback(false)
     }
   })
 }
@@ -52,6 +27,7 @@ export default function toggleDebugRefOn(tabId, urlModel, callback) {
 function toggle(version, ref) {
 
   if (version === 'V2') {
+    window.nwtServerDebugRef.set(null)
     window.nwtServerDebugRef.set(ref)
   } else {
     window.nwtServerDebugRef.on(ref.port, ref.url)

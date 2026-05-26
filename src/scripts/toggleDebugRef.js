@@ -1,32 +1,35 @@
 
+import { EventBus, Events } from 'event'
 import toggleDebugRefOn from './toggleDebugRefOn'
 import toggleDebugRefOff from './toggleDebugRefOff'
 import getActiveTab from './getActiveTab'
-import testDebugStatus from './testDebugStatus'
+import testTabRef from './testTabRef'
 
-import { DebugStateStorage } from 'storage'
-import { DebugStateModel } from 'models'
+import { TabRefStorage } from 'storage'
 
-const debugStateStorage = new DebugStateStorage()
+const tabRefStorage = new TabRefStorage()
 
-export default function toggleDebugRef(model, callback) {
-
+export default function toggleDebugRef(ref) {
   getActiveTab(tabId => {
-    testDebugStatus(tabId, (status, result) => {
+    testTabRef(tabId, (status, version, currentRef) => {
+
       switch (status) {
         case ('DISABLED'): {
-          // NoOp
+          dispatchRefChange(tabId, null)
           break
         }
         case ('READY'): {
           // If ready, turn on.
-          toggleDebugRefOn(tabId, model, (result) => {
+          toggleDebugRefOn(tabId, ref, (result) => {
             if (result) {
-              let state = new DebugStateModel().setUrlId(model.getId())
 
-              debugStateStorage.setState(tabId, state, (newState) => {
-                callback(newState.getUrlId())
-              })
+              if (version === 'V2') {
+                dispatchRefChange(tabId, ref)
+              } else {
+                tabRefStorage.setRef(tabId, ref, (newState) => {
+                  dispatchRefChange(tabId, ref)
+                })
+              }
             }
           })
 
@@ -34,12 +37,15 @@ export default function toggleDebugRef(model, callback) {
         }
         case ('LIVE'): {
           // If already on, turn off.
-
           toggleDebugRefOff(tabId, (result) => {
             if (result) {
-              debugStateStorage.removeState(tabId, () => {
-                callback(null)
-              })
+              if (version === 'V2') {
+                dispatchRefChange(tabId, null)
+              } else {
+                tabRefStorage.removeRef(tabId, () => {
+                  dispatchRefChange(tabId, null)
+                })
+              }
             }
           })
 
@@ -47,5 +53,12 @@ export default function toggleDebugRef(model, callback) {
         }
       }
     })
+  })
+}
+
+function dispatchRefChange(tabId, ref) {
+  EventBus.dispatch(Events.REF_CHANGED, {
+    tabId: tabId,
+    ref: ref
   })
 }

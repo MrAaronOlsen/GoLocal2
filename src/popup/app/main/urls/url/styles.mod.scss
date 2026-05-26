@@ -40,6 +40,9 @@
       }
 
       .detail {
+        display: flex;
+        flex-direction: row;
+        
         font-size: 11px;
       }
     }

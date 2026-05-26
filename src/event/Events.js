@@ -3,6 +3,7 @@ export default class Events {
   static ADD_URL = new Events('ADD_URL')
   static DELETE_URL = new Events('DELETE_URL')
   static EDIT_MODE_CHANGED = new Events('EDIT_MODE_CHANGED')
+  static REF_CHANGED = new Events('REF_CHANGED')
 
   #name
 

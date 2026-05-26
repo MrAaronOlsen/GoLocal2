@@ -7,7 +7,7 @@ import Icon from '../Icon'
 
 export default function On({ color, size, ...props }) {
   return (
-    <Icon color={'#7ac341'} size={size} {...props}>
+    <Icon color={color} size={size} {...props}>
       <div className={styles.container}/>
     </Icon>
   )

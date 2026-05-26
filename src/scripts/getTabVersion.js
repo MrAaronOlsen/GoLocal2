@@ -1,13 +1,24 @@
 
-export default function getTabCompatibility(tabId, callback) {
+export default function getTabVersion(tabId, callback) {
   
   chrome.scripting.executeScript({
     target: { tabId: tabId },
     world: 'MAIN',
     func: checkDebugRef
   })
-    .then(frames => callback(frames && frames[0].result))
-    .catch(error => callback(null))
+    .then(frames => {
+      let result = frames && frames[0].result
+
+      if (result) {
+        callback(result.version, result.ref)
+      } else {
+        callback(null, null)
+      }
+      
+    })
+    .catch(error => {
+      callback(null, null)
+    })
 }
 
 function checkDebugRef() {

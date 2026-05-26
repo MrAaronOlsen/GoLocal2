@@ -1,4 +1,5 @@
-import { updateIcon } from 'scripts'
+import { updateIcon, getActiveTab } from 'scripts'
+import { EventBus, Events } from 'event'
 
 // Event fired when a tab is opened
 //
@@ -18,4 +19,9 @@ chrome.tabs.onUpdated.addListener((id, change, tab) => {
   if (change.status === 'complete') {
     updateIcon(id)
   }
+})
+
+EventBus.onBackground(Events.REF_CHANGED, (data) => {
+  let tabId = data.detail.tabId
+  updateIcon(tabId)
 })

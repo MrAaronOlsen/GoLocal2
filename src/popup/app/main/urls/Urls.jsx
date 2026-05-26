@@ -9,9 +9,9 @@ import { EventBus, Events } from 'event'
 
 import * as styles from './styles.mod.scss'
 
-export default function Urls({ }) {
+export default function Urls({}) {
   const [urls, setUrls] = React.useState([])
-
+  
   React.useEffect(() => {
     new UrlStorage().getAll(setUrls)
   }, [])
