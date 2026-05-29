@@ -1,5 +1,5 @@
-import { updateIcon, getActiveTab } from 'scripts'
 import { EventBus, Events } from 'event'
+import { updateIcon, getActiveTab } from 'scripts'
 
 // Event fired when a tab is opened
 //

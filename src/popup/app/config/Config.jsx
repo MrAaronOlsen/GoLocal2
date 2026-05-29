@@ -2,8 +2,9 @@ import React from 'react'
 
 import { ConfigStorage } from 'storage'
 
-import ThemeConfig from './themeconfig/ThemeConfig'
 import StorageConfig from './storageconfig/StorageConfig'
+import ThemeConfig from './themeconfig/ThemeConfig'
+
 import * as styles from './styles.mod.scss'
 
 const configStorage = new ConfigStorage()

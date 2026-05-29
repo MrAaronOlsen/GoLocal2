@@ -1,7 +1,7 @@
+import { UrlModel } from 'models'
+
 import ChromeStorage from './ChromeStorage'
 import Storage from './Storage'
-
-import { UrlModel } from 'models'
 
 const ID = 'URL_STORAGE'
 

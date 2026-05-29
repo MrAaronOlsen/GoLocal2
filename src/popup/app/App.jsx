@@ -1,10 +1,10 @@
 import React from 'react'
 
+import { Theme } from 'theme'
+
+import { Footer } from './Footer'
 import { Header } from './Header'
 import { Main } from './Main'
-import { Footer } from './Footer'
-
-import { Theme } from 'theme'
 
 import * as styles from './styles.mod.scss'
 

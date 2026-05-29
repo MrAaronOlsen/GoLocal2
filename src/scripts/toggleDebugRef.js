@@ -1,11 +1,10 @@
-
 import { EventBus, Events } from 'event'
-import toggleDebugRefOn from './toggleDebugRefOn'
-import toggleDebugRefOff from './toggleDebugRefOff'
+import { TabRefStorage } from 'storage'
+
 import getActiveTab from './getActiveTab'
 import testTabRef from './testTabRef'
-
-import { TabRefStorage } from 'storage'
+import toggleDebugRefOff from './toggleDebugRefOff'
+import toggleDebugRefOn from './toggleDebugRefOn'
 
 const tabRefStorage = new TabRefStorage()
 

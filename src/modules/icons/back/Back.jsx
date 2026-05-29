@@ -1,9 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
-
-import * as styles from './styles.mod.scss'
 
 import Icon from '../Icon'
+
+import * as styles from './styles.mod.scss'
 
 export default function Back({ color, size, ...props }) {
   return (

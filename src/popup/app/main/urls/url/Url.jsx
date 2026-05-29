@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { toggleDebugRef, getActiveTab, testTabRef } from 'scripts'
-import { On, Wrench } from 'icons'
-import { Color } from 'theme'
 import { EventBus, Events } from 'event'
+import { On, Wrench } from 'icons'
 import { RefModel } from 'models'
+import { toggleDebugRef, getActiveTab, testTabRef } from 'scripts'
+import { Color } from 'theme'
 
 import UrlConfig from './urlconfig/UrlConfig'
 

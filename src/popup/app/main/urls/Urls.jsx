@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { Url } from './url'
-import { UrlStorage } from 'storage'
-import { UrlModel } from 'models'
 import { EventBus, Events } from 'event'
+import { UrlModel } from 'models'
+import { UrlStorage } from 'storage'
+
+import { Url } from './url'
 
 import * as styles from './styles.mod.scss'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { TextInput } from 'input'
 import { Disk, Trash } from 'icons'
+import { TextInput } from 'input'
 
 import * as styles from './styles.mod.scss'
 

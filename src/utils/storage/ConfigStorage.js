@@ -1,7 +1,7 @@
+import { ConfigModel } from 'models'
+
 import ChromeStorage from './ChromeStorage'
 import Storage from './Storage'
-
-import { ConfigModel } from 'models'
 
 const ID = 'CONFIG_STORAGE'
 const CONFIG = 'CONFIG'

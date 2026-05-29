@@ -1,5 +1,3 @@
-import { EventBus, Events } from 'event'
-
 const LIVE_PATH = 'assets/live/'
 const READY_PATH = 'assets/ready/'
 const DISABLED_PATH = 'assets/disabled/'

@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { EventBus, Events } from 'event'
-import { getActiveTab, testTabRef } from 'scripts'
 import { RefModel } from 'models'
+import { getActiveTab, testTabRef } from 'scripts'
+
 import * as styles from './styles.mod.scss'
 import GoLocal from 'assets/live/bar_icon_128.png'
 

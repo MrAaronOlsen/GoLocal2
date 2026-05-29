@@ -1,7 +1,7 @@
+import { getActiveTab } from 'scripts'
+
 import ChromeStorage from './ChromeStorage'
 import Storage from './Storage'
-
-import { getActiveTab } from 'scripts'
 
 const ID = 'DEBUG_STATE_STORAGE'
 

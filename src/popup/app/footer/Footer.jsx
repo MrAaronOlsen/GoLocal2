@@ -1,10 +1,11 @@
 import React from 'react'
-import * as styles from './styles.mod.scss'
 
 import { Button } from 'button'
 import { EventBus, Events } from 'event'
-import { Config } from 'popup/app/config'
 import { Add, Back, Gear } from 'icons'
+import { Config } from 'popup/app/config'
+
+import * as styles from './styles.mod.scss'
 
 export default function Footer({ navigate }) {
   const [editMode, setEditMode] = React.useState(false)

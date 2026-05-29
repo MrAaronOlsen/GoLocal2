@@ -1,5 +1,4 @@
 import getTabVersion from './getTabVersion'
-import { UrlModel } from 'models'
 
 export default function toggleDebugRefOn(tabId, ref, callback) {
   ref['on'] = true

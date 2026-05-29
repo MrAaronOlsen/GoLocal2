@@ -1,4 +1,5 @@
 import { TabRefStorage } from 'storage'
+
 import getTabVersion from './getTabVersion'
 
 const tabRefStorage = new TabRefStorage()
