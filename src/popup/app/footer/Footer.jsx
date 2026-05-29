@@ -15,8 +15,7 @@ export default function Footer({ navigate }) {
   })
 
   const updateEditMode = React.useCallback((data) => {
-    let editMode = data.detail.editMode
-    setEditMode(editMode)
+    setEditMode(data.detail.editSet.size > 0) 
   })
 
   return editMode ? null : (

@@ -5,24 +5,21 @@ import { toggleDebugRef, getActiveTab, testTabRef } from 'scripts'
 import { On, Wrench } from 'icons'
 import { Color } from 'theme'
 import { EventBus, Events } from 'event'
-import { TabRefStorage } from 'storage'
 import { RefModel } from 'models'
 
 import UrlConfig from './urlconfig/UrlConfig'
 
 import * as styles from './styles.mod.scss'
 
-const tabRefStorage = new TabRefStorage()
-
-export default function Url({ modelIn }) {
+export default function Url({ modelIn, editSet, editListener, saveListener, deleteListener }) {
   const [model, setModel] = React.useState(modelIn)
-  const [edit, setEdit] = React.useState(false)
   const [ref, setRef] = React.useState(null)
   const [active, setActive] = React.useState(false)
+  const [editMode, setEditMode] = React.useState(false)
 
   React.useEffect(() => {
     if (!modelIn.validate()) {
-      setEdit(true)
+      setEditMode(true)
     }
 
     getActiveTab(tabId => {
@@ -46,24 +43,35 @@ export default function Url({ modelIn }) {
   })
 
   React.useEffect(() => {
-    EventBus.dispatch(Events.EDIT_MODE_CHANGED, {
-      editMode: edit
-    })
-  }, [edit])
+    EventBus.on(Events.EDIT_MODE_CHANGED, handleEditModeChange)
+    return () => EventBus.remove(Events.EDIT_MODE_CHANGED, handleEditModeChange)
+  })
 
-  function toggleEdit() {
-    setEdit(!edit)
+  const handleEditModeChange = React.useCallback((data) => {
+    setEditMode(data.detail.editSet.has(model.getId()))
+  })
+
+  function toggleEditMode() {
+    editListener(model)
   }
 
-  function onFormChange(name, url, port, ws, wsPort) {
+  function onEdit(name, url, port, wsUrl, wsPort) {
     let newModel = model.clone()
       .setName(name)
       .setUrl(url)
       .setPort(port)
-      .setWebSocketUrl(ws)
+      .setWebSocketUrl(wsUrl)
       .setWebSocketPort(wsPort)
 
     setModel(newModel)
+  }
+
+  function onSave() {
+    saveListener(model)
+  }
+
+  function onDelete() {
+    deleteListener(model)
   }
 
   function toggleDebugRefMode() {
@@ -81,13 +89,14 @@ export default function Url({ modelIn }) {
           {buildDetail(model.getUrl(), model.getPort(), ref)}
           {buildDetail(model.getWebSocketUrl(), model.getWebSocketPort(), ref)}
         </div>
-        {!edit && <Wrench title='Edit config' size="20px" onClick={toggleEdit} />}
+        {!editMode && <Wrench title='Edit config' size="20px" onClick={toggleEditMode} />}
       </div>
-      {edit && (
+      {editMode && (
         <UrlConfig
           model={model}
-          onFormChange={onFormChange}
-          onSave={toggleEdit}
+          onEdit={onEdit}
+          onSave={onSave}
+          onDelete={onDelete}
         />
       )}
     </div>

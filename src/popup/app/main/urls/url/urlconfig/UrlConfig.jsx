@@ -1,32 +1,27 @@
 import React from 'react'
 
-import { UrlStorage } from 'storage'
-import { TextInput, BooleanInput } from 'input'
-import { Button } from 'button'
-import { EventBus, Events } from 'event'
+import { TextInput } from 'input'
 import { Disk, Trash } from 'icons'
 
 import * as styles from './styles.mod.scss'
 
-export default function UrlConfig({ model, onFormChange, onSave }) {
+export default function UrlConfig({ model, onEdit, onSave, onDelete }) {
   const [name, setName] = React.useState(model.getName())
   const [url, setUrl] = React.useState(model.getUrl())
   const [port, setPort] = React.useState(model.getPort())
-  const [ws, setWs] = React.useState(model.getWebSocketUrl())
+  const [wsUrl, setWsUrl] = React.useState(model.getWebSocketUrl())
   const [wsPort, setWsPort] = React.useState(model.getWebSocketPort())
 
   React.useEffect(() => {
-    onFormChange(name, url, port, ws, wsPort)
-  }, [name, url, port, ws, wsPort])
+    onEdit(name, url, port, wsUrl, wsPort)
+  }, [name, url, port, wsUrl, wsPort])
 
-  function save() {
-    model.setName(name)
-      .setUrl(url)
-      .setPort(port)
-      .setWebSocketUrl(ws)
-      .setWebSocketPort(wsPort)
+  function handleSave() {
+    onSave()
+  }
 
-    new UrlStorage().setUrl(model, onSave)
+  function handleDelete() {
+    onDelete()
   }
 
   return (
@@ -45,17 +40,14 @@ export default function UrlConfig({ model, onFormChange, onSave }) {
           <TextInput title="Port" name="port" placeholder="Network Port" value={port} onChange={setPort} />
         </div>
         <div className={styles.url}>
-          <TextInput title="Web Socket" name="ws" placeholder="Web Socket" value={ws} onChange={setWs} />
+          <TextInput title="Web Socket" name="ws" placeholder="Web Socket" value={wsUrl} onChange={setWsUrl} />
           <TextInput title="WSPort" name="wsport" placeholder="Web Socket Port" value={wsPort} onChange={setWsPort} />
         </div>
 
       </div>
       <div className={styles.footer}>
-        <Disk title='Save' size={"20px"} onClick={save} />
-
-        <Trash title='Delete' size={"20px"} onClick={() =>
-          EventBus.dispatch(Events.DELETE_URL, { id: model.getId() })
-        } />
+        <Disk title='Save' size={"20px"} onClick={handleSave} />
+        <Trash title='Delete' size={"20px"} onClick={handleDelete} />
       </div>
     </div>
   )

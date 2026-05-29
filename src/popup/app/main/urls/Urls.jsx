@@ -1,49 +1,77 @@
 import React from 'react'
 
 import { Url } from './url'
-import { UrlModel } from 'models'
 import { UrlStorage } from 'storage'
-import { Config } from 'config'
-import { Gear } from 'icons'
+import { UrlModel } from 'models'
 import { EventBus, Events } from 'event'
 
 import * as styles from './styles.mod.scss'
 
-export default function Urls({}) {
+export default function Urls({ }) {
   const [urls, setUrls] = React.useState([])
-  
+  const [editSet, setEditSet] = React.useState(new Set())
+
   React.useEffect(() => {
     new UrlStorage().getAll(setUrls)
   }, [])
 
   React.useEffect(() => {
-    EventBus.on(Events.ADD_URL, addNew)
-    return () => EventBus.remove(Events.ADD_URL, addNew)
+    EventBus.on(Events.ADD_URL, addUrl)
+    return () => EventBus.remove(Events.ADD_URL, addUrl)
+  })
+
+  const addUrl = React.useCallback((data) => {
+    let newUrl = UrlModel.withId()
+
+    setUrls([...urls, newUrl])
+    updateEditSet(newUrl.getId())
   })
 
   React.useEffect(() => {
-    EventBus.on(Events.DELETE_URL, removeUrl)
-    return () => EventBus.remove(Events.DELETE_URL, removeUrl)
-  })
+    EventBus.dispatch(Events.EDIT_MODE_CHANGED, {
+      editSet: editSet
+    })
+  }, [editSet])
 
-  const addNew = React.useCallback((data) => {
-    setUrls([...urls, UrlModel.withId()])
-  })
+  function editListener(model) {
+    updateEditSet(model.getId())
+  }
 
-  const removeUrl = React.useCallback((data) => {
-    new UrlStorage().deleteUrl(data.detail.id, (container) => { })
+  function saveListener(model) {
+    new UrlStorage().setUrl(model, () => {
+      updateEditSet(model.getId())
+    })
+  }
+
+  function deleteListener(model) {
+    let modelId = model.getId()
+    new UrlStorage().deleteUrl(modelId, (container) => { })
 
     setUrls(urls.filter(function (url) {
-      return url.getId() !== data.detail.id
+      return url.getId() !== modelId
     }))
-  })
+
+    updateEditSet(modelId)
+  }
+
+  function updateEditSet(modelId) {
+    if (!editSet.delete(modelId)) {
+      editSet.add(modelId)
+    }
+
+    setEditSet(new Set(editSet))
+  }
 
   return (
     <div className={styles.container}>
       <div className={styles.list}>
         {urls.map((url) => {
           return (
-            <Url key={url.getId()} modelIn={url} />
+            <Url key={url.getId()}
+              modelIn={url}
+              editListener={editListener}
+              saveListener={saveListener}
+              deleteListener={deleteListener} />
           )
         })}
       </div>
