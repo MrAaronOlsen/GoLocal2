@@ -14,6 +14,6 @@ const Styled = styled.div(
 
 export default function Gear({ icon, color, size, ...props }) {
   return (
-    <Styled color={color} size={size} {...props}/>
+    <Styled color={color} size={size} {...props} />
   )
 }

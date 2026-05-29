@@ -7,7 +7,7 @@ import * as styles from './styles.mod.scss'
 export default function Add({ color, size, ...props }) {
   return (
     <Icon color={color} size={size} {...props}>
-      <div className={styles.container}/>
+      <div className={styles.container} />
     </Icon>
   )
 }

@@ -5,7 +5,7 @@ import getTabVersion from './getTabVersion'
 const tabRefStorage = new TabRefStorage()
 
 export default function testTabRef(tabId, callback) {
-  getTabVersion(tabId, (version, ref) => {  
+  getTabVersion(tabId, (version, ref) => {
     if (ref) {
       if (version === 'V2') {
         let status = ref.on ? 'LIVE' : 'READY'

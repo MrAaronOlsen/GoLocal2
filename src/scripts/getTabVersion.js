@@ -1,6 +1,6 @@
 
 export default function getTabVersion(tabId, callback) {
-  
+
   chrome.scripting.executeScript({
     target: { tabId: tabId },
     world: 'MAIN',
@@ -14,7 +14,7 @@ export default function getTabVersion(tabId, callback) {
       } else {
         callback(null, null)
       }
-      
+
     })
     .catch(error => {
       callback(null, null)
