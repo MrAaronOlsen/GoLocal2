@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Config } from 'popup/app/config'
+import { RefProvider } from 'ref'
 import { Theme } from 'theme'
 
 import { Footer } from './Footer'
@@ -8,38 +10,33 @@ import { Main } from './Main'
 
 import * as styles from './styles.mod.scss'
 
+const PAGES = {
+  main: Main,
+  config: Config,
+}
+
 export default function App() {
-  const [pages, setPages] = React.useState([['main', <Main />]])
+  const [stack, setStack] = React.useState(['main'])
 
   const navigate = {
-    size: () => pages.length,
-    current: () => pages.at(-1)[0],
-    add: addPage,
-    pop: removePage,
+    size: () => stack.length,
+    current: () => stack.at(-1),
+    add: (name) => setStack(prev => [...prev, name]),
+    pop: () => setStack(prev => (prev.length > 1 ? prev.slice(0, -1) : prev)),
   }
 
-  function addPage(name, page) {
-    pages.push([name, page])
-    setPages([...pages])
-  }
-
-  function removePage() {
-    if (pages.length == 1) {
-      return
-    }
-
-    pages.pop()
-    setPages([...pages])
-  }
+  const Page = PAGES[stack.at(-1)]
 
   return (
     <React.Fragment>
       <Theme />
-      <div className={styles.container}>
-        <Header />
-        {pages.at(-1)[1]}
-        <Footer navigate={navigate} />
-      </div>
+      <RefProvider>
+        <div className={styles.container}>
+          <Header />
+          <Page />
+          <Footer navigate={navigate} />
+        </div>
+      </RefProvider>
     </React.Fragment>
   )
 }

@@ -6,7 +6,7 @@ import * as styles from './styles.mod.scss'
 const StyledInput = styled.input(
   ({ width, height }) => `
       width: ${width || '100%'};
-      width: ${height || '100%'};
+      height: ${height || '100%'};
     `,
 )
 

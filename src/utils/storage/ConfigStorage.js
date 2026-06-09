@@ -13,7 +13,7 @@ export default class ConfigStorage extends Storage {
 
   setConfig(config, callback) {
     if (!(config instanceof ConfigModel)) {
-      throw 'State must be of type ConfigModel'
+      throw 'Config must be of type ConfigModel'
     }
 
     this.getContainer((container) => {

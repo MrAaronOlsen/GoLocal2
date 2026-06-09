@@ -1,9 +1,9 @@
 import getTabVersion from './getTabVersion'
 
-export default function toggleDebugRefOn(tabId, ref, callback) {
-  ref['on'] = true
+export default function toggleDebugRefOn(tabId, refIn, callback) {
+  let ref = { ...refIn, on: true }
 
-  getTabVersion(tabId, (version, currentRef) => {
+  getTabVersion(tabId, (version) => {
     if (version) {
       chrome.scripting
         .executeScript({
@@ -12,10 +12,10 @@ export default function toggleDebugRefOn(tabId, ref, callback) {
           func: toggle,
           args: [version, ref],
         })
-        .then(frames => callback(true))
+        .then(frames => callback(true, version))
         .catch(error => {
           console.error('[Go Local] ' + error)
-          callback(false)
+          callback(false, version)
         })
     } else {
       callback(false)
@@ -26,7 +26,6 @@ export default function toggleDebugRefOn(tabId, ref, callback) {
 function toggle(version, ref) {
 
   if (version === 'V2') {
-    window.nwtServerDebugRef.set(null)
     window.nwtServerDebugRef.set(ref)
   } else {
     window.nwtServerDebugRef.on(ref.port, ref.url)

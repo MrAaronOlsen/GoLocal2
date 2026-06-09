@@ -11,6 +11,14 @@ export default class RefModel extends Model {
         super(payload)
     }
 
+    static fromUrlModel(url) {
+        return new RefModel()
+            .setUrl(url.getNetProtocall() + url.getNetDomain())
+            .setPort(url.getNetPort())
+            .setWebSocketUrl(url.getWSProtocall() + url.getWSDomain())
+            .setWebSocketPort(url.getWSPort())
+    }
+
     setOn(on) {
         this.set(ON, on)
         return this
@@ -70,6 +78,19 @@ export default class RefModel extends Model {
         }
 
         return null
+    }
+
+    matches(urlModel) {
+        if (!this.getOn()) {
+            return false
+        }
+
+        let other = RefModel.fromUrlModel(urlModel)
+
+        return this.getUrl() === other.getUrl() &&
+            this.getPort() === other.getPort() &&
+            this.getWebSocketUrl() === other.getWebSocketUrl() &&
+            this.getWebSocketPort() === other.getWebSocketPort()
     }
 
     toRef() {

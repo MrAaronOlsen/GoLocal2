@@ -1,4 +1,4 @@
-import { getActiveTab } from 'scripts'
+import getActiveTab from 'scripts/getActiveTab'
 
 import ChromeStorage from './ChromeStorage'
 import Storage from './Storage'

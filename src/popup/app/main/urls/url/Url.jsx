@@ -1,67 +1,51 @@
 import React from 'react'
-import styled from 'styled-components'
 
 import { EventBus, Events } from 'event'
 import { On, Wrench } from 'icons'
-import { RefModel } from 'models'
-import { toggleDebugRef, getActiveTab, testTabRef } from 'scripts'
+import { RefModel, UrlModel } from 'models'
+import { useLiveRef } from 'ref'
+import { turnRefOn, turnRefOff } from 'scripts'
 import { Color } from 'theme'
 
 import UrlConfig from './urlconfig/UrlConfig'
 
 import * as styles from './styles.mod.scss'
 
-export default function Url({ modelIn, editSet, editListener, saveListener, deleteListener }) {
+export default function Url({ modelIn, editListener, saveListener, deleteListener }) {
   const [model, setModel] = React.useState(modelIn)
-  const [ref, setRef] = React.useState(null)
-  const [active, setActive] = React.useState(false)
   const [editMode, setEditMode] = React.useState(false)
+
+  const ref = useLiveRef()
+  const isOn = ref ? new RefModel(ref).matches(model) : false
 
   React.useEffect(() => {
     if (!modelIn.validate()) {
       setEditMode(true)
     }
-
-    getActiveTab(tabId => {
-      testTabRef(tabId, (status, version, ref) => {
-        setRef(new RefModel(ref))
-      })
-    })
   }, [])
 
   React.useEffect(() => {
-    setActive(ref && ref.getOn() && model.containsRef(ref.toRef()))
-  }, [ref])
+    const handleEditModeChange = (data) => {
+      setEditMode(data.detail.editSet.has(model.getId()))
+    }
 
-  React.useEffect(() => {
-    EventBus.on(Events.REF_CHANGED, handleRefChange)
-    return () => EventBus.remove(Events.REF_CHANGED, handleRefChange)
-  })
-
-  const handleRefChange = React.useCallback((data) => {
-    setRef(new RefModel(data.detail.ref))
-  })
-
-  React.useEffect(() => {
     EventBus.on(Events.EDIT_MODE_CHANGED, handleEditModeChange)
     return () => EventBus.remove(Events.EDIT_MODE_CHANGED, handleEditModeChange)
-  })
-
-  const handleEditModeChange = React.useCallback((data) => {
-    setEditMode(data.detail.editSet.has(model.getId()))
-  })
+  }, [])
 
   function toggleEditMode() {
     editListener(model)
   }
 
-  function onEdit(name, url, port, wsUrl, wsPort) {
+  function onEdit(name, netProto, netDomain, netPort, wsProto, wsDomain, wsPort) {
     let newModel = model.clone()
       .setName(name)
-      .setUrl(url)
-      .setPort(port)
-      .setWebSocketUrl(wsUrl)
-      .setWebSocketPort(wsPort)
+      .setNetProtocall(netProto)
+      .setNetDomain(netDomain)
+      .setNetPort(netPort)
+      .setWSProtocall(wsProto)
+      .setWSDomain(wsDomain)
+      .setWSPort(wsPort)
 
     setModel(newModel)
   }
@@ -74,20 +58,24 @@ export default function Url({ modelIn, editSet, editListener, saveListener, dele
     deleteListener(model)
   }
 
-  function toggleDebugRefMode() {
-    toggleDebugRef(new RefModel(model.toJson()).toRef())
+  function setRefMode() {
+    if (isOn) {
+      turnRefOff()
+    } else {
+      turnRefOn(RefModel.fromUrlModel(model)
+        .setOn(true)
+        .toRef())
+    }
   }
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.status}>
-          {active ? <On color={Color.GREEN.getColor()} size='20px' /> : null}
-        </div>
-        <div className={styles.title} onClick={toggleDebugRefMode}>
+      <div className={styles.header} title={isOn ? 'Turn ref off' : 'Turn ref on'}>
+        <On size='20px' color={isOn ? Color.GREEN.getColor() : null} />
+        <div className={styles.title} onClick={setRefMode}>
           <div className={styles.name}>{getName(model)}</div>
-          {buildDetail(model.getUrl(), model.getPort(), ref)}
-          {buildDetail(model.getWebSocketUrl(), model.getWebSocketPort(), ref)}
+          {buildDetail(model.getNetProtocall(), model.getNetDomain(), model.getNetPort())}
+          {buildDetail(model.getWSProtocall(), model.getWSDomain(), model.getWSPort())}
         </div>
         {!editMode && <Wrench title='Edit config' size="20px" onClick={toggleEditMode} />}
       </div>
@@ -107,18 +95,10 @@ function getName(model) {
   return model.getName() || 'Name'
 }
 
-const StyledDetail = styled.div(
-  ({ color, size }) => `
-    color: ${color || 'var(--surface-on)'};
-  `,
-)
-
-function buildDetail(url, port, ref) {
-  if (url && port) {
+function buildDetail(proto, domain, port) {
+  if (proto && domain && port) {
     return <div className={styles.detail}>
-      <StyledDetail color={ref && ref.containsValue(url) ? Color.GREEN.getColor() : null}>{url}</StyledDetail>
-      <div>:</div>
-      <StyledDetail color={ref && ref.containsValue(url) ? Color.GREEN.getColor() : null}>{port}</StyledDetail>
+      <div>{proto}</div><div>{domain}</div><div>:</div><div>{port}</div>
     </div>
   }
 

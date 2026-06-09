@@ -91,7 +91,19 @@ const plugins = () => {
     new CopyPlugin({
       patterns: [
         './src/manifest.json',
-        { from: './src/assets', to: 'assets/' },
+        {
+          from: './src/assets',
+          to: 'assets/',
+          // Keep design sources in the repo but out of the shipped bundle.
+          globOptions: {
+            ignore: [
+              '**/.DS_Store',
+              '**/*.xcf',
+              '**/fontsvgs/**',
+              '**/bar_icon_1024.png',
+            ],
+          },
+        },
       ],
     }),
     new CleanWebpackPlugin(),
@@ -110,12 +122,12 @@ let aliases = () => {
     event: path.resolve(__dirname, 'src/event'),
     icons: path.resolve(__dirname, 'src/modules/icons'),
     input: path.resolve(__dirname, 'src/modules/input'),
-    button: path.resolve(__dirname, 'src/modules/button'),
     models: path.resolve(__dirname, 'src/models'),
     scripts: path.resolve(__dirname, 'src/scripts'),
     storage: path.resolve(__dirname, 'src/utils/storage'),
     theme: path.resolve(__dirname, 'src/theme'),
     assets: path.resolve(__dirname, 'src/assets'),
     config: path.resolve(__dirname, 'src/popup/app/config'),
+    ref: path.resolve(__dirname, 'src/popup/app/ref'),
   }
 }

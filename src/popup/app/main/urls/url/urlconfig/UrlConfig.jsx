@@ -7,14 +7,16 @@ import * as styles from './styles.mod.scss'
 
 export default function UrlConfig({ model, onEdit, onSave, onDelete }) {
   const [name, setName] = React.useState(model.getName())
-  const [url, setUrl] = React.useState(model.getUrl())
-  const [port, setPort] = React.useState(model.getPort())
-  const [wsUrl, setWsUrl] = React.useState(model.getWebSocketUrl())
-  const [wsPort, setWsPort] = React.useState(model.getWebSocketPort())
+  const [netProto, setNetProto] = React.useState(model.getNetProtocall() || 'http://')
+  const [netDomain, setNetDomain] = React.useState(model.getNetDomain())
+  const [netPort, setNetPort] = React.useState(model.getNetPort() || '8084')
+  const [wsProto, setWSProto] = React.useState(model.getWSProtocall() || 'ws://')
+  const [wsDomain, setWSDomain] = React.useState(model.getWSDomain())
+  const [wsPort, setWSPort] = React.useState(model.getWSPort() || '8084')
 
   React.useEffect(() => {
-    onEdit(name, url, port, wsUrl, wsPort)
-  }, [name, url, port, wsUrl, wsPort])
+    onEdit(name, netProto, netDomain, netPort, wsProto, wsDomain, wsPort)
+  }, [name, netProto, netDomain, netPort, wsProto, wsDomain, wsPort])
 
   function handleSave() {
     onSave()
@@ -28,20 +30,18 @@ export default function UrlConfig({ model, onEdit, onSave, onDelete }) {
     <div className={styles.container}>
 
       <div className={styles.form}>
-        <TextInput
-          title="Name"
-          name="name"
-          placeholder="Name"
-          value={name}
-          onChange={setName}
-        />
-        <div className={styles.url}>
-          <TextInput title="Network Url" name="url" placeholder="Network Url" value={url} onChange={setUrl} />
-          <TextInput title="Port" name="port" placeholder="Network Port" value={port} onChange={setPort} />
+        <div className={styles.name}>
+          <TextInput title="Name" name="name" placeholder="Name" value={name} onChange={setName} />
         </div>
         <div className={styles.url}>
-          <TextInput title="Web Socket" name="ws" placeholder="Web Socket" value={wsUrl} onChange={setWsUrl} />
-          <TextInput title="WSPort" name="wsport" placeholder="Web Socket Port" value={wsPort} onChange={setWsPort} />
+          <TextInput title="Protocall" name="net_proto" placeholder="http://" value={netProto} onChange={setNetProto} />
+          <TextInput title="Domain" name="net_domain" placeholder="foo.bar" value={netDomain} onChange={setNetDomain} />
+          <TextInput title="Port" name="net_port" placeholder="8084" value={netPort} onChange={setNetPort} />
+        </div>
+        <div className={styles.url}>
+          <TextInput title="Protocall" name="ws_protocall" placeholder="ws://" value={wsProto} onChange={setWSProto} />
+          <TextInput title="Domain" name="ws_domain" placeholder="foo.bar" value={wsDomain} onChange={setWSDomain} />
+          <TextInput title="Port" name="ws_port" placeholder="8084" value={wsPort} onChange={setWSPort} />
         </div>
 
       </div>

@@ -1,10 +1,12 @@
 import Model from './Model'
 
 const NAME = 'name'
-const URL = 'url'
-const PORT = 'port'
-const WS_URL = 'wsUrl'
-const WS_PORT = 'wsPort'
+const NET_PROTO = 'net_proto'
+const NET_DOMAIN = 'net_domain'
+const NET_PORT = 'net_port'
+const WS_PROTO = 'ws_proto'
+const WS_DOMAIN = 'ws_domain'
+const WS_PORT = 'ws_port'
 
 export default class UrlModel extends Model {
   constructor(payload) {
@@ -27,50 +29,58 @@ export default class UrlModel extends Model {
     return this.get(NAME)
   }
 
-  setUrl(url) {
-    this.set(URL, url)
+  setNetProtocall(v) {
+    this.set(NET_PROTO, v)
     return this
   }
 
-  getUrl() {
-    return this.get(URL)
+  getNetProtocall() {
+    return this.get(NET_PROTO)
   }
 
-  setPort(port) {
-    this.set(PORT, port)
+  setNetDomain(v) {
+    this.set(NET_DOMAIN, v)
     return this
   }
 
-  getPort() {
-    return this.get(PORT)
+  getNetDomain() {
+    return this.get(NET_DOMAIN)
   }
 
-  setWebSocketUrl(ws) {
-    this.set(WS_URL, ws)
+  setNetPort(v) {
+    this.set(NET_PORT, v)
     return this
   }
 
-  getWebSocketUrl() {
-    return this.get(WS_URL)
+  getNetPort() {
+    return this.get(NET_PORT)
   }
 
-  setWebSocketPort(wsPort) {
-    this.set(WS_PORT, wsPort)
+  setWSProtocall(v) {
+    this.set(WS_PROTO, v)
     return this
   }
 
-  getWebSocketPort() {
+  getWSProtocall() {
+    return this.get(WS_PROTO)
+  }
+
+  setWSDomain(v) {
+    this.set(WS_DOMAIN, v)
+    return this
+  }
+
+  getWSDomain() {
+    return this.get(WS_DOMAIN)
+  }
+
+  setWSPort(v) {
+    this.set(WS_PORT, v)
+    return this
+  }
+
+  getWSPort() {
     return this.get(WS_PORT)
-  }
-
-  containsRef(ref) {
-    if (!ref) {
-      return false
-    }
-
-    return Object.entries(ref).some(([key, value]) =>
-      this.toJson().hasOwnProperty(key) && this.toJson()[key] === value
-    )
   }
 
   clone() {
@@ -78,6 +88,8 @@ export default class UrlModel extends Model {
   }
 
   validate() {
-    return this.getName() && this.getUrl() && this.getPort()
+    return this.getName() && 
+    this.getNetProtocall() && this.getNetDomain() && this.getNetPort() &&
+    this.getWSProtocall() && this.getWSDomain() && this.getWSPort()
   }
 }

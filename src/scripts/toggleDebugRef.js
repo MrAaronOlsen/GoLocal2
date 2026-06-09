@@ -2,54 +2,43 @@ import { EventBus, Events } from 'event'
 import { TabRefStorage } from 'storage'
 
 import getActiveTab from './getActiveTab'
-import testTabRef from './testTabRef'
 import toggleDebugRefOff from './toggleDebugRefOff'
 import toggleDebugRefOn from './toggleDebugRefOn'
 
 const tabRefStorage = new TabRefStorage()
 
-export default function toggleDebugRef(ref) {
+export function turnRefOn(ref) {
+  let liveRef = { ...ref, on: true }
+
   getActiveTab(tabId => {
-    testTabRef(tabId, (status, version, currentRef) => {
+    toggleDebugRefOn(tabId, liveRef, (result, version) => {
+      if (!result) {
+        return
+      }
 
-      switch (status) {
-        case ('DISABLED'): {
-          dispatchRefChange(tabId, null)
-          break
-        }
-        case ('READY'): {
-          // If ready, turn on.
-          toggleDebugRefOn(tabId, ref, (result) => {
-            if (result) {
+      // V2 pages report their own ref via get(); V1 has no such API, so we
+      // remember what was set in TabRefStorage. Either way the ref we hand to
+      // the UI must carry on:true so the header preview renders.
+      if (version === 'V2') {
+        dispatchRefChange(tabId, liveRef)
+      } else {
+        tabRefStorage.setRef(tabId, liveRef, () => dispatchRefChange(tabId, liveRef))
+      }
+    })
+  })
+}
 
-              if (version === 'V2') {
-                dispatchRefChange(tabId, ref)
-              } else {
-                tabRefStorage.setRef(tabId, ref, (newState) => {
-                  dispatchRefChange(tabId, ref)
-                })
-              }
-            }
-          })
+export function turnRefOff() {
+  getActiveTab(tabId => {
+    toggleDebugRefOff(tabId, (result, version) => {
+      if (!result) {
+        return
+      }
 
-          break
-        }
-        case ('LIVE'): {
-          // If already on, turn off.
-          toggleDebugRefOff(tabId, (result) => {
-            if (result) {
-              if (version === 'V2') {
-                dispatchRefChange(tabId, null)
-              } else {
-                tabRefStorage.removeRef(tabId, () => {
-                  dispatchRefChange(tabId, null)
-                })
-              }
-            }
-          })
-
-          break
-        }
+      if (version === 'V2') {
+        dispatchRefChange(tabId, null)
+      } else {
+        tabRefStorage.removeRef(tabId, () => dispatchRefChange(tabId, null))
       }
     })
   })

@@ -1,6 +1,6 @@
 .container {
   display: grid;
-  grid-template-columns: 30px 100px calc(100vw - 150px);
+  grid-template-columns: 30px auto;
   align-items: center;
 
   height: 50px;
@@ -21,20 +21,5 @@
   .title {
     padding: 5px;
     font-size: 20px;
-  }
-
-  .refpreview {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .refpart {
-    display: flex;
-    font-size: 10px;
-  }
-
-  .back {
-    cursor: pointer;
   }
 }

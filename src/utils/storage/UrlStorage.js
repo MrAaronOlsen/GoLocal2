@@ -3,14 +3,14 @@ import { UrlModel } from 'models'
 import ChromeStorage from './ChromeStorage'
 import Storage from './Storage'
 
-const ID = 'URL_STORAGE'
+const ID = 'URL_STORAGE_V2'
 
 export default class UrlStorage extends Storage {
   constructor() {
     super(ChromeStorage.sync(), ID)
   }
 
-  setUrl(url, callback) {
+  setUrlModel(url, callback) {
     if (!(url instanceof UrlModel)) {
       throw 'Url must be URL Model'
     }
@@ -24,7 +24,7 @@ export default class UrlStorage extends Storage {
     })
   }
 
-  getUrl(id, callback) {
+  getUrlModel(id, callback) {
     this.getContainer((container) => {
       callback(new UrlModel(container.get(id)))
     })

@@ -8,7 +8,7 @@ line between groups** and **no blank lines within a group**:
 1. **External** — third-party packages resolved from `node_modules`
    (e.g. `react`, `styled-components`, `short-uuid`).
 2. **Aliased internal** — internal code modules referenced via a webpack alias:
-   `button`, `config`, `event`, `icons`, `input`, `models`, `popup`, `scripts`,
+   `config`, `event`, `icons`, `input`, `models`, `popup`, `scripts`,
    `storage`, `theme`. (Asset/style files are *not* here even if reached via an
    alias — see group 4.)
 3. **Relative** — internal code modules referenced by a relative path

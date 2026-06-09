@@ -3,7 +3,7 @@ import getTabVersion from './getTabVersion'
 export default function toggleDebugRefOff(tabId, callback) {
 
   getTabVersion(tabId, (version, ref) => {
-    if (!ref) {
+    if (!version) {
       callback(false)
     } else {
       chrome.scripting
@@ -19,10 +19,10 @@ export default function toggleDebugRefOff(tabId, callback) {
           },
           args: [version]
         })
-        .then(frames => callback(true))
+        .then(frames => callback(true, version))
         .catch(error => {
           console.error('[Go Local] ' + error)
-          callback(false)
+          callback(false, version)
         },
         )
     }

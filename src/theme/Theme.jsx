@@ -46,14 +46,14 @@ export default function Theme() {
   }, [])
 
   React.useEffect(() => {
+    const changeTheme = (data) => {
+      let theme = data.detail.theme
+      setTheme(themes[theme])
+    }
+
     EventBus.on(Events.THEME_CHANGED, changeTheme)
     return () => EventBus.remove(Events.THEME_CHANGED, changeTheme)
-  })
-
-  const changeTheme = React.useCallback((data) => {
-    let theme = data.detail.theme
-    setTheme(themes[theme])
-  })
+  }, [])
 
   return <GlobalStyle {...theme} />
 }

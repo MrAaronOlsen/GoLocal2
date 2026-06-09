@@ -1,4 +1,7 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  
   width: 100%;
 
   background-color: var(--background-main);
@@ -18,10 +21,6 @@
 
     background-color: var(--surface-main);
     border-radius: 5px;
-
-    .status {
-      width: 10%;
-    }
 
     .title {
       display: flex;

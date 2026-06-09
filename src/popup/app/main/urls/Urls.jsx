@@ -17,16 +17,16 @@ export default function Urls({ }) {
   }, [])
 
   React.useEffect(() => {
+    const addUrl = () => {
+      let newUrl = UrlModel.withId()
+
+      setUrls(prev => [...prev, newUrl])
+      updateEditSet(newUrl.getId())
+    }
+
     EventBus.on(Events.ADD_URL, addUrl)
     return () => EventBus.remove(Events.ADD_URL, addUrl)
-  })
-
-  const addUrl = React.useCallback((data) => {
-    let newUrl = UrlModel.withId()
-
-    setUrls([...urls, newUrl])
-    updateEditSet(newUrl.getId())
-  })
+  }, [])
 
   React.useEffect(() => {
     EventBus.dispatch(Events.EDIT_MODE_CHANGED, {
@@ -39,7 +39,7 @@ export default function Urls({ }) {
   }
 
   function saveListener(model) {
-    new UrlStorage().setUrl(model, () => {
+    new UrlStorage().setUrlModel(model, () => {
       updateEditSet(model.getId())
     })
   }
@@ -56,11 +56,16 @@ export default function Urls({ }) {
   }
 
   function updateEditSet(modelId) {
-    if (!editSet.delete(modelId)) {
-      editSet.add(modelId)
-    }
 
-    setEditSet(new Set(editSet))
+    setEditSet(prev => {
+      let next = new Set(prev)
+
+      if (!next.delete(modelId)) {
+        next.add(modelId)
+      }
+
+      return next
+    })
   }
 
   return (
