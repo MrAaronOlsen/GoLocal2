@@ -4,7 +4,12 @@ const eventBus = {
   },
   dispatch(event, data) {
     document.dispatchEvent(new CustomEvent(event.getName(), { detail: data }))
-    chrome.runtime.sendMessage({ name: event.getName(), detail: data })
+
+    if (event.isBackground()) {
+      chrome.runtime
+        .sendMessage({ name: event.getName(), detail: data })
+        .catch(() => {})
+    }
   },
   remove(event, callback) {
     document.removeEventListener(event.getName(), callback)
