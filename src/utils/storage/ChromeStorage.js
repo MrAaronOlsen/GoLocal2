@@ -55,10 +55,4 @@ export default class ChromeStorage {
 
     chrome.storage[this.#type].set(store, callback)
   }
-
-  clear() {
-    chrome.storage[this.#type].clear(() => {
-      this.getStorage()
-    })
-  }
 }

@@ -64,22 +64,6 @@ export default class RefModel extends Model {
         return this.get(WS_PORT)
     }
 
-    getUrlComplete() {
-        if (this.getUrl() && this.getPort()) {
-            return this.getUrl() + ":" + this.getPort()
-        }
-
-        return null
-    }
-
-    getWebSocketComplete() {
-        if (this.getWebSocketUrl() && this.getWebSocketPort()) {
-            return this.getWebSocketUrl() + ":" + this.getWebSocketPort()
-        }
-
-        return null
-    }
-
     matches(urlModel) {
         if (!this.getOn()) {
             return false

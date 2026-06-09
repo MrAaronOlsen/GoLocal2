@@ -6,7 +6,6 @@
   "author": "Aaron Olsen",
   "description": "Nextbot Developer Tool for Redirecting Website Network Traffic",
   "permissions": [
-    "tabs",
     "storage",
     "scripting"
   ],

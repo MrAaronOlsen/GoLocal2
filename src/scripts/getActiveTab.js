@@ -1,7 +1,11 @@
 export default function get(callback) {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    let tabId = tabs[0].id
+    let tab = tabs[0]
 
-    callback(tabId)
+    if (!tab) {
+      return
+    }
+
+    callback(tab.id)
   })
 }

@@ -8,7 +8,7 @@ import * as styles from './styles.mod.scss'
 const StyledTheme = styled.div(
   ({ active }) => `
     cursor: pointer;
-    ${active && 'background-color: var(--surface-main-light);'}
+    ${active && 'background-color: var(--background-main);'}
   `,
 )
 

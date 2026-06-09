@@ -21,7 +21,7 @@ export default class Storage {
     )
   }
 
-  clear() {
-    this.#storage.clear()
+  clear(callback) {
+    this.setContainer(new Container(), callback || (() => {}))
   }
 }

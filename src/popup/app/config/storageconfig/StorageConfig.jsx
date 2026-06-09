@@ -4,7 +4,7 @@ import { UrlStorage } from 'storage'
 
 import * as styles from './styles.mod.scss'
 
-export default function StorageConfig({ getConfig, setConfig }) {
+export default function StorageConfig() {
   const [confirm, setConfirm] = React.useState(false)
 
   function clear() {

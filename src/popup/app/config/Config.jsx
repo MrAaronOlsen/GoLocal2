@@ -29,7 +29,7 @@ export default function Config() {
       <div className={styles.frame}>
         <div className={styles.title}>STORAGE</div>
         <div className={styles.body}>
-          <StorageConfig getConfig={getConfig} setConfig={setConfig} />
+          <StorageConfig />
         </div>
       </div>
     </div>
