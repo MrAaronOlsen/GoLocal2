@@ -3,7 +3,11 @@
   flex-direction: column;
 
   .entry {
-    display: flex;
+    display: grid;
+    grid-template-columns: 30px calc(100% - 30px);
+    
     padding: 5px;
+
+    cursor: pointer;
   }
 }

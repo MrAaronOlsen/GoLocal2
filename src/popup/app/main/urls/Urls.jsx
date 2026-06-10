@@ -21,7 +21,7 @@ export default function Urls({ }) {
       let newUrl = UrlModel.withId()
 
       setUrls(prev => [...prev, newUrl])
-      updateEditSet(newUrl.getId())
+      openEdit(newUrl.getId())
     }
 
     EventBus.on(Events.ADD_URL, addUrl)
@@ -35,35 +35,36 @@ export default function Urls({ }) {
   }, [editSet])
 
   function editListener(model) {
-    updateEditSet(model.getId())
+    openEdit(model.getId())
   }
 
   function saveListener(model) {
     new UrlStorage().setUrlModel(model, () => {
-      updateEditSet(model.getId())
+      closeEdit(model.getId())
     })
   }
 
   function deleteListener(model) {
     let modelId = model.getId()
-    new UrlStorage().deleteUrl(modelId, (container) => { })
+    new UrlStorage().deleteUrl(modelId, () => { })
 
-    setUrls(urls.filter(function (url) {
-      return url.getId() !== modelId
-    }))
+    setUrls(prev => prev.filter((url) => url.getId() !== modelId))
 
-    updateEditSet(modelId)
+    closeEdit(modelId)
   }
 
-  function updateEditSet(modelId) {
-
+  function openEdit(modelId) {
     setEditSet(prev => {
       let next = new Set(prev)
+      next.add(modelId)
+      return next
+    })
+  }
 
-      if (!next.delete(modelId)) {
-        next.add(modelId)
-      }
-
+  function closeEdit(modelId) {
+    setEditSet(prev => {
+      let next = new Set(prev)
+      next.delete(modelId)
       return next
     })
   }

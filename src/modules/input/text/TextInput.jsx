@@ -4,9 +4,17 @@ import styled from 'styled-components'
 import * as styles from './styles.mod.scss'
 
 const StyledInput = styled.input(
-  ({ width, height }) => `
+  ({ width, height, highlight }) => `
       width: ${width || '100%'};
       height: ${height || '100%'};
+
+      border-bottom: 1px solid ${highlight || 'var(--primary-border)'};
+      
+      &:focus,
+      &:focus-visible {
+        outline: none;
+        border-bottom: 1px solid var(--secondary-main);
+      }
     `,
 )
 

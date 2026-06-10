@@ -1,16 +1,10 @@
 import React from 'react'
-import styled from 'styled-components'
 
 import { EventBus, Events } from 'event'
+import { On } from 'icons'
+import { Color } from 'theme'
 
 import * as styles from './styles.mod.scss'
-
-const StyledTheme = styled.div(
-  ({ active }) => `
-    cursor: pointer;
-    ${active && 'background-color: var(--background-main);'}
-  `,
-)
 
 export default function ThemeConfig({ getConfig, setConfig }) {
   const [theme, setTheme] = React.useState()
@@ -37,12 +31,16 @@ export default function ThemeConfig({ getConfig, setConfig }) {
 
   return (
     <div className={styles.container}>
-      <StyledTheme className={styles.entry} active={theme === 'light'}>
-        <div onClick={() => changeTheme('light')}>Light</div>
-      </StyledTheme>
-      <StyledTheme className={styles.entry} active={theme === 'dark'}>
-        <div onClick={() => changeTheme('dark')}>Dark</div>
-      </StyledTheme>
+      <div className={styles.entry}>
+        <div onClick={() => changeTheme('light')}>Light</div>{onIcon('light')}
+      </div>
+      <div className={styles.entry}>
+        <div onClick={() => changeTheme('dark')}>Dark</div>{onIcon('dark')}
+      </div>
     </div>
   )
+
+  function onIcon(value) {
+    return theme === value ? <On size='15px' color={Color.GREEN.getColor()} /> : null
+  }
 }

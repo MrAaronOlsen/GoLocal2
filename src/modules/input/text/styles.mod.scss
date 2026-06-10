@@ -15,13 +15,5 @@
 
     height: 16px;
     padding: 3px;
-    
-    border-bottom: 1px solid var(--primary-border);
-
-    &:focus,
-    &:focus-visible {
-      outline: none;
-      border-bottom: 1px solid var(--secondary-main);
-    }
   }
 }

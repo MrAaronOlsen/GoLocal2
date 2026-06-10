@@ -42,12 +42,14 @@ export default class SetIcon {
   static #setIcon(tabId, type, version) {
     let path = icons[type]
 
-    chrome.action.setIcon(
-      {
+    // The tab can be closed during the async probe that precedes this call,
+    // leaving a stale tabId; ignore the resulting "No tab with id" rejection.
+    chrome.action
+      .setIcon({
         path: path,
         tabId: tabId,
-      }
-    )
+      })
+      .catch(() => {})
 
     if (version === 'V1') {
       this.#setBadge(tabId, 'V1', Color.WHITE.getColor())
@@ -59,7 +61,9 @@ export default class SetIcon {
   }
 
   static #setBadge(tabId, text, color) {
-    chrome.action.setBadgeText({ text: text, tabId: tabId });
-    chrome.action.setBadgeBackgroundColor({ color: color, tabId: tabId });
+    chrome.action.setBadgeText({ text: text, tabId: tabId }).catch(() => {})
+    chrome.action
+      .setBadgeBackgroundColor({ color: color, tabId: tabId })
+      .catch(() => {})
   }
 }
