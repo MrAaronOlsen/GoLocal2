@@ -24,6 +24,7 @@
     "default_popup": "popup.html"
   },
   "icons": {
-    "128": "assets/live/bar_icon_128.png"
+    "128": "assets/logo_128.png",
+    "64": "assets/logo_64.png"
   }
 }

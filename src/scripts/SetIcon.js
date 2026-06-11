@@ -49,21 +49,22 @@ export default class SetIcon {
         path: path,
         tabId: tabId,
       })
-      .catch(() => {})
+      .catch(() => { })
 
     if (version === 'V1') {
       this.#setBadge(tabId, 'V1', Color.WHITE.getColor())
-    } else if (type === 'LIVE') {
-      this.#setBadge(tabId, ' ', Color.GREEN.getColor())
     } else {
       this.#setBadge(tabId, null, Color.WHITE.getColor())
     }
   }
 
   static #setBadge(tabId, text, color) {
-    chrome.action.setBadgeText({ text: text, tabId: tabId }).catch(() => {})
+    chrome.action
+      .setBadgeText({ text: text, tabId: tabId })
+      .catch(() => { })
+
     chrome.action
       .setBadgeBackgroundColor({ color: color, tabId: tabId })
-      .catch(() => {})
+      .catch(() => { })
   }
 }

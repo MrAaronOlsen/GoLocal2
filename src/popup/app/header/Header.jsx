@@ -1,7 +1,7 @@
 import React from 'react'
 
 import * as styles from './styles.mod.scss'
-import GoLocal from 'assets/live/bar_icon_128.png'
+import GoLocal from 'assets/logo_128.png'
 
 export default function Header({ }) {
   return (
